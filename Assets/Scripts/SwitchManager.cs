@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SwitchManager : MonoBehaviour {
+public class SwitchManager : MonoBehaviour 
+{
 
     ArrayList switches;
 
 	// Use this for initialization
 	void Start () 
     {
-	    
+        switches = new ArrayList();
 	}
 	
 	// Update is called once per frame
@@ -17,9 +18,10 @@ public class SwitchManager : MonoBehaviour {
 	    
 	}
 
-    public void AddSwitch(GameObject gameSwitch)
+    public void AddSwitch(Switch gameSwitch)
     {
         switches.Add(gameSwitch);
+        Debug.Log(gameSwitch + " Added");
     }
 
     public void Remove(Switch gameSwitch)

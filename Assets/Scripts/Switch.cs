@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Switch : MonoBehaviour 
 {
-
-    SwitchManager switchManager;
     RuleManager ruleManager;
     private bool isActivated = false;
 
@@ -13,11 +11,10 @@ public class Switch : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        switchManager = Camera.main.GetComponent<SwitchManager>() as SwitchManager;
         ruleManager = Camera.main.GetComponent<RuleManager>() as RuleManager;
 
-        if (switchManager != null)
-            switchManager.AddSwitch(this.gameObject);
+        if (ruleManager != null)
+            ruleManager.AddSwitch(this);
 	}
 	
 	// Update is called once per frame
@@ -25,8 +22,8 @@ public class Switch : MonoBehaviour
     {
         if (isActivated)
         {
-            if(switchManager != null)
-                switchManager.Remove(this);
+            if (ruleManager != null)
+                ruleManager.Remove(this);
         }
 	}
 
