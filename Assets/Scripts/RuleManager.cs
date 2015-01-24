@@ -32,12 +32,16 @@ public class RuleManager : MonoBehaviour
     //Current
     public class Rule
     {
-        Rule();
+        Rule()
+        {
+
+        }
+
         Verbtype verbTarget;
         NounType nounTarget;
         string adjective = "";
 
-        bool operator==(Rule one, Rule two)
+        static public bool operator==(Rule one, Rule two)
         {
             if(one.verbTarget == two.verbTarget)
             {
@@ -53,6 +57,24 @@ public class RuleManager : MonoBehaviour
             }
             else
                 return false;
+        }
+
+        static public bool operator !=(Rule one, Rule two)
+        {
+            if (one.verbTarget == two.verbTarget)
+            {
+                if (one.nounTarget == two.nounTarget)
+                {
+                    if (one.adjective == two.adjective)
+                        return false;
+                    else
+                        return true;
+                }
+                else
+                    return true;
+            }
+            else
+                return true;
         }
     }
 
@@ -76,9 +98,6 @@ public class RuleManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        //if(rule != Rule.NO_RULE)
-        //    timer += Time.deltaTime;
-
         if (timer >= MAX_TIME)
             timer = 0.0f;
 	}
@@ -102,6 +121,24 @@ public class RuleManager : MonoBehaviour
 
     public void CheckRule(int player, Verbtype verb, NounType noun, string adjective)
     {
-        
+        switch (player)
+        {
+            case 1:
+                {
+                    break;
+                }
+            case 2:
+                {
+                    break;
+                }
+            case 3:
+                {
+                    break;
+                }
+            case 4:
+                {
+                    break;
+                }
+        }
     }
 }
