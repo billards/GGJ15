@@ -6,7 +6,7 @@ public class SwitchManager : MonoBehaviour
 {
 
     ArrayList switches;
-    public int MAX_SWITCHES = 3;    // The maximum number of switches used that can be in game at any one time
+    public int MAX_SWITCHES = 0;    // The maximum number of switches used that can be in game at any one time
     public GameObject switchPrefab;
 
 	// Use this for initialization
@@ -14,33 +14,47 @@ public class SwitchManager : MonoBehaviour
     {
         UnityEngine.Random.seed = (int)System.DateTime.Now.Ticks;
         switches = new ArrayList();
+
+        Switch OnOffSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
+        OnOffSwitch.gameObject.name = "OnOffSwitch";
+        OnOffSwitch.Init(Switch.SwitchType.Invert);
+
+        Switch NounSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
+        NounSwitch.gameObject.name = "NounSwitch";
+        NounSwitch.Init(Switch.SwitchType.Noun);
+
+        Switch VerbSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
+        VerbSwitch.gameObject.name = "VerbSwitch";
+        VerbSwitch.Init(Switch.SwitchType.Verb);
+
+        AddSwitch(OnOffSwitch);
+        AddSwitch(NounSwitch);
+        AddSwitch(VerbSwitch);
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-	    if(switches.Count < MAX_SWITCHES)
-        {
-            // Generating random numbers within bounds of game area
-            float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
-            float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
 
-            GameObject gameSwitch = Instantiate(switchPrefab, new Vector3(randX, randY, 0.0f), Quaternion.identity) as GameObject;
 
-            RuleManager.Verbtype verb = GetRandomEnum<RuleManager.Verbtype>();
-            RuleManager.NounType noun = GetRandomEnum<RuleManager.NounType>();
-            RuleManager.AdjectiveType adjective = GetRandomEnum<RuleManager.AdjectiveType>();
+        //if(switches.Count < MAX_SWITCHES)
+        //{
+        //    // Generating random numbers within bounds of game area
+        //    float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
+        //    float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
 
-            Debug.Log(verb + " " + noun + " " + adjective);
+        //    GameObject gameSwitch = Instantiate(switchPrefab, new Vector3(randX, randY, 0.0f), Quaternion.identity) as GameObject;
+        //    AddSwitch(gameSwitch.GetComponent<Switch>() as Switch);
 
-            if (gameSwitch != null)
-                gameSwitch.GetComponent<Switch>().SetRule(new RuleManager.Rule(verb, noun, adjective.ToString()));
+        //    RuleManager.Verbtype verb = GetRandomEnum<RuleManager.Verbtype>();
+        //    RuleManager.NounType noun = GetRandomEnum<RuleManager.NounType>();
+        //    RuleManager.AdjectiveType adjective = GetRandomEnum<RuleManager.AdjectiveType>();
 
-            switches.Add(Instantiate(switchPrefab, new Vector2(randX, randY), Quaternion.identity));
+        //    Debug.Log(verb + " " + noun + " " + adjective);
 
-            //Keeping track of references to switches in current scene
-            Debug.Log("Switch " + switches.Count + " Added!");
-        }
+        //    if (gameSwitch != null)
+        //        gameSwitch.GetComponent<Switch>().SetRule(new RuleManager.Rule(verb, noun, adjective.ToString()));
+        //}
 	}
 
     private static T GetRandomEnum<T>()
@@ -52,12 +66,20 @@ public class SwitchManager : MonoBehaviour
 
     public void AddSwitch(Switch gameSwitch)
     {
+        if(gameSwitch == null)
+            return;
+
         switches.Add(gameSwitch);
         Debug.Log(gameSwitch + " Added");
+        Debug.Log("ArrayCount: " + switches.Count);
     }
     
     public void Remove(Switch gameSwitch)
     {
+        Switch toDestroy;
+        toDestroy = switches[switches.IndexOf(gameSwitch)] as Switch;
+        switches.Remove(gameSwitch);
+
         for (int i = 0; i < switches.Count; ++i)
         {
             if (i.Equals(gameSwitch))

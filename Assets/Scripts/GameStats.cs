@@ -5,19 +5,7 @@ public class GameStats : MonoBehaviour
 {
     int p1Score, p2Score, p3Score, p4Score = 0;
 
-	// Use this for initialization
-	void Start () 
-    {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	
-	}
-
-    public void SetScore(int player, int amount)
+    public void AddScore(int player, int amount)
     {
         switch(player)
         {
@@ -47,5 +35,13 @@ public class GameStats : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    public void CheckForNegativeScore()
+    {
+        if (p1Score < 0) p1Score = 0;
+        if (p2Score < 0) p2Score = 0;
+        if (p3Score < 0) p3Score = 0;
+        if (p4Score < 0) p4Score = 0;
     }
 }

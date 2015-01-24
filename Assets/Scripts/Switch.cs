@@ -1,28 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Switch : MonoBehaviour 
+public class Switch : MonoBehaviour, Noun 
 {
-    SwitchManager switchManager;
+
+    public enum SwitchType
+    {
+        None,
+        Invert,
+        Noun,
+        Verb
+    }
+    public SwitchType switchType = SwitchType.None;
+
     RuleManager.Rule switchRule;
     private bool isActivated = false;
 
-	// Use this for initialization
-	void Start () 
-    {
-        switchManager = Camera.main.GetComponent<SwitchManager>() as SwitchManager;
-
-        if (switchManager != null)
-            switchManager.AddSwitch(this);
-	}
+    bool needsToSpawn = false;
+    float spawnTime = 2f;
+    float spawnTimeCounter = 0f;
 	
-	// Update is called once per frame
-	void Update () 
+    void Update () 
     {
-        if (isActivated)
+        if (needsToSpawn)
         {
-            if (switchManager != null)
-                switchManager.Remove(this);
+            if (spawnTimeCounter >= spawnTime)
+            {
+                Spawn();
+            }
+            spawnTimeCounter += Time.deltaTime;
         }
 	}
 
@@ -38,8 +44,31 @@ public class Switch : MonoBehaviour
         }
     }
 
-    public void SetRule(RuleManager.Rule newRule)
+    public void Init(SwitchType switchType)
     {
-        switchRule = newRule;
+        this.switchType = switchType;
+
+        float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
+        float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
+        this.gameObject.transform.position = new Vector3(randX, randY, 0.0f);
     }
+
+    public void Spawn()
+    {
+
+    }
+
+    public void Reset()
+    {
+        gameObject.SetActive(false);
+        spawnTimeCounter = 0f;
+    }
+
+    public void Kicked(int player, Vector3 direction)
+    {
+        Reset();
+    }
+
+    public void Tagged(int player) { }
+    public void Grabbed(int player) { }
 }
