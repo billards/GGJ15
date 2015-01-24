@@ -8,7 +8,7 @@ public class OrbitingAction : MonoBehaviour
 	public Sprite Foot;
 	public float KickDuration = 0.25f;
 
-	private RuleManager.Verbtype verb;
+	private Verbtype verb;
 	private int player;
 	private float timer = 0;
 	private SpriteRenderer spriteRenderer;
@@ -44,18 +44,18 @@ public class OrbitingAction : MonoBehaviour
 		}
 	}
 
-	public void PerformAction(RuleManager.Verbtype verb, bool enable)
+	public void PerformAction(Verbtype verb, bool enable)
 	{
 		toggle (enable);
 		// change the state
 		this.verb = verb;
 		switch (verb)
 		{
-			case RuleManager.Verbtype.Grab :
-			case RuleManager.Verbtype.Tag :
+			case Verbtype.Grab :
+			case Verbtype.Tag :
 				spriteRenderer.sprite = this.Hand;
 				break;
-			case RuleManager.Verbtype.Kick:
+			case Verbtype.Kick:
 				spriteRenderer.sprite = this.Foot;
 				this.timer = KickDuration;
 				break;
@@ -90,13 +90,13 @@ public class OrbitingAction : MonoBehaviour
 			{
 				switch (verb)
 				{
-					case RuleManager.Verbtype.Grab :
+					case Verbtype.Grab :
 						noun.Grabbed(player);
 						break;
-					case RuleManager.Verbtype.Kick :
+					case Verbtype.Kick :
 						noun.Kicked(player, this.transform.localPosition.normalized);
 						break;
-					case RuleManager.Verbtype.Tag :
+					case Verbtype.Tag :
 						noun.Tagged (player);
 						break;
 					default :

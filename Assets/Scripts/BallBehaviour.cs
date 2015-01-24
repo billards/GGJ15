@@ -34,6 +34,13 @@ public class BallBehaviour : MonoBehaviour, Noun
 		cooldownTimer += Time.deltaTime;
 	}
 
+    public AdjectiveType adjectiveType = AdjectiveType.None;
+    public AdjectiveType Adjective
+    {
+        get { return adjectiveType;  }
+        set { }
+    }
+
 	public void Grabbed(int player)
 	{
 		// start the cooldown timer and change who the parent is, also reset the localposition
@@ -43,6 +50,8 @@ public class BallBehaviour : MonoBehaviour, Noun
 		this.cooldownTimer = 0;
 		this.rigidbody2D.velocity = Vector2.zero;
 		AudioManager.Instance.PlayGrabBall();
+
+        RuleManager.instance.CheckRule(player, Verbtype.Grab, NounType.Ball, Adjective);
 	}
 
 	public void Kicked(int player, Vector3 direction)
@@ -51,6 +60,8 @@ public class BallBehaviour : MonoBehaviour, Noun
 		this.transform.parent = null;
 		this.rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
 		AudioManager.Instance.PlayKickBall();
+
+        RuleManager.instance.CheckRule(player, Verbtype.Kick, NounType.Ball, Adjective);
 	}
 
 	public void Tagged(int player)

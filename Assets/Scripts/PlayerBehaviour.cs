@@ -57,17 +57,17 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 			{
 				if (Input.GetButtonDown("Tag"+player.Number) && this.transform.childCount < 2)
 				{
-					actionCollider.PerformAction(RuleManager.Verbtype.Tag, true);
+					actionCollider.PerformAction(Verbtype.Tag, true);
 					timer = 0;
 				}
 				else if (Input.GetButton("Kick"+player.Number))
 				{
-					actionCollider.PerformAction(RuleManager.Verbtype.Kick, true);
+					actionCollider.PerformAction(Verbtype.Kick, true);
 					timer = 0;
 				}
 				else if (Input.GetButtonDown("Grab"+player.Number) && this.transform.childCount < 2 && !isGrabbed)
 				{
-					actionCollider.PerformAction(RuleManager.Verbtype.Grab, true);
+					actionCollider.PerformAction(Verbtype.Grab, true);
 					timer = 0;
 				}
 				else if (Input.GetButtonDown ("Dash"+player.Number) && !isGrabbed)
@@ -86,7 +86,7 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		// release the tag hand
 		if (Input.GetButtonUp("Tag"+player.Number) && this.transform.childCount < 2)
 		{
-			actionCollider.PerformAction(RuleManager.Verbtype.Tag, false);
+			actionCollider.PerformAction(Verbtype.Tag, false);
 		}
 		if (this.transform.childCount > 1) // we're holding onto something..
 			isGrabbing = true;
@@ -133,6 +133,32 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 	}
 
 	// launch in the direction
+    public AdjectiveType Adjective
+    {
+        get
+        {
+            switch (player.Number)
+            {
+                case 1:
+                    return AdjectiveType.One;
+
+                case 2:
+                    return AdjectiveType.Two;
+                    
+                case 3:
+                    return AdjectiveType.Three;
+
+                case 4:
+                    return AdjectiveType.Four;
+
+                default:
+                    return AdjectiveType.None;
+            }
+        }
+
+        set { }
+    }
+
 	public void Kicked(int player, Vector3 direction)
 	{
 		isGrabbed = false;
@@ -140,6 +166,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
 		kicksTaken++;
 		AudioManager.Instance.PlayKickPlayer();
+
+        RuleManager.instance.CheckRule(player, Verbtype.Kick, NounType.Player, Adjective);
 	}
 
 	public void Tagged(int player)
@@ -148,6 +176,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		isStunned = true;
 		stunnedTimer = 0;
 		UseStunnedSprite(true);
+
+        RuleManager.instance.CheckRule(player, Verbtype.Tag, NounType.Player, Adjective);
 	}
 
 	public void Grabbed(int player)
@@ -158,6 +188,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		grabberGO.GetComponent<PlayerBehaviour>().kicksTaken = 0;
 		grabber = grabberGO.transform;
 		UseStunnedSprite(true);
+
+        RuleManager.instance.CheckRule(player, Verbtype.Grab, NounType.Player, Adjective);
 	}
 
 	IEnumerator Stunned()

@@ -53,6 +53,12 @@ public class Switch : MonoBehaviour, Noun
         this.gameObject.transform.position = new Vector3(randX, randY, 0.0f);
     }
 
+    public AdjectiveType Adjective
+    {
+        get { return AdjectiveType.None; }
+        set { }
+    }
+
     public void Spawn()
     {
 
@@ -66,6 +72,20 @@ public class Switch : MonoBehaviour, Noun
 
     public void Kicked(int player, Vector3 direction)
     {
+        switch (switchType)
+        {
+            case SwitchType.Invert:
+                RuleManager.instance.InvertRule();
+                break;
+
+            case SwitchType.Noun:
+                RuleManager.instance.ChangeNoun();
+                break;
+
+            case SwitchType.Verb:
+                RuleManager.instance.ChangeVerb();
+                break;
+        }
         Reset();
     }
 

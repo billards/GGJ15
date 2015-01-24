@@ -2,42 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum Verbtype
+{
+    Kick,
+    Grab,
+    Tag,
+    Bring
+}
+
+public enum NounType
+{
+    Ball,
+    Player,
+    Switch
+}
+
+public enum AdjectiveType
+{
+    None,
+    Blue,
+    Red,
+    White,
+    One,
+    Two,
+    Three,
+    Four
+}
+
 public class RuleManager : MonoBehaviour 
 {
 
     public static RuleManager instance;
 
-    public enum Verbtype
-    {
-        Kick,
-        Grab,
-        Tag,
-        Bring
-    }
-
-    public enum NounType
-    {
-        Ball,
-        Player,
-        Switch
-    }
-
-    public enum AdjectiveType
-    {
-        None,
-        Blue,
-        Red,
-        White,
-        One,
-        Two,
-        Three,
-        Four
-    }
 
     public class Rule
     {
-        bool invertRule = false;
-
         public Rule()
         {
             verbTarget = Verbtype.Kick;
@@ -45,22 +44,11 @@ public class RuleManager : MonoBehaviour
             adjective = AdjectiveType.White;
         }
 
-        public Rule(Verbtype verb, NounType noun, AdjectiveType adjective, bool invertRule)
+        public Rule(Verbtype verb, NounType noun, AdjectiveType adjective)
         {
             verbTarget = verb;
             nounTarget = noun;
             this.adjective = adjective;
-            this.invertRule = invertRule;
-        }
-
-        public void InvertRule()
-        {
-            invertRule = !invertRule;
-        }
-
-        public bool IsInverted()
-        {
-            return invertRule;
         }
 
         Verbtype verbTarget;
@@ -122,7 +110,7 @@ public class RuleManager : MonoBehaviour
     public GameObject[] players;  // Reference to the players in scene
     Rule currentRule;             // The current rule the game is operating off of
     GameStats gameStats;          // For updating scores
-    const float MAX_TIME = 10.0f; // Maximum time a rule can be in play
+    const float MAX_TIME = 5.0f; // Maximum time a rule can be in play
     float timer = 0.0f;           // A timer counting to MAX_TIME
     System.Random rnd = new System.Random();
     bool isRuleInverted = false;
@@ -146,29 +134,56 @@ public class RuleManager : MonoBehaviour
     {
         instance = this;
         gameStats = Camera.main.GetComponent<GameStats>() as GameStats;
-        currentRule = new Rule();
+        currentRule = null;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        if (timer < MAX_TIME)
+        if (engineStarted)
         {
-            SetRule(RandomRule());
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            
-            timer = 0.0f;
+            if (timer < MAX_TIME)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                SetRule(RandomRule());
+            }
         }
 	}
+
+    bool engineStarted = false;
+    public void StartEngine(NounType newNoun)
+    {
+        Verbtype newVerb = GetRandomEnum<Verbtype>();
+
+        while (!VerbToNoun[newVerb].Contains(newNoun))
+        {
+            newVerb = GetRandomEnum<Verbtype>();
+        }
+
+        AdjectiveType newAdjective = NounToAdjective[newNoun][rnd.Next(NounToAdjective[newNoun].Count)];
+        SetRule(new Rule(newVerb, newNoun, newAdjective));
+
+        engineStarted = true;
+    }
+
+    public void CheckRule(Player player, Verbtype checkVerb, NounType checkNoun, AdjectiveType checkAdjective)
+    {
+        CheckRule(player.Number, checkVerb, checkNoun, checkAdjective);
+    }
+
+    public void CheckRule(int player, Verbtype checkVerb, NounType checkNoun, AdjectiveType checkAdjective)
+    {
+        CheckRule(player, new Rule(checkVerb, checkNoun, checkAdjective));
+    }
 
     public void CheckRule(int player, Rule rule)
     {
         if (currentRule == rule && gameStats != null)
         {
-            if (currentRule.IsInverted())
+            if (isRuleInverted)
             {
                 gameStats.AddScore(player, 1);
             }
@@ -176,12 +191,13 @@ public class RuleManager : MonoBehaviour
             {
                 gameStats.AddScore(player, -5);
             }
+            SetRule(RandomRule());
         }
     }
 
     public void ChangeVerb()
     {
-        Verbtype newVerb = GetRandomEnum<RuleManager.Verbtype>();
+        Verbtype newVerb = GetRandomEnum<Verbtype>();
         NounType newNoun = currentRule.GetNoun();
         AdjectiveType newAdjective = currentRule.GetAdjective();
         if (!VerbToNoun[newVerb].Contains(newNoun))
@@ -193,7 +209,7 @@ public class RuleManager : MonoBehaviour
                newAdjective = NounToAdjective[newNoun][rnd.Next(NounToAdjective[newNoun].Count)];
            }
         }
-        SetRule(new Rule(newVerb, newNoun, newAdjective, isRuleInverted));
+        SetRule(new Rule(newVerb, newNoun, newAdjective));
     }
 
     public void ChangeNoun()
@@ -208,27 +224,28 @@ public class RuleManager : MonoBehaviour
         }
 
         AdjectiveType newAdjective = NounToAdjective[newNoun][rnd.Next(NounToAdjective[newNoun].Count)];
-        SetRule(new Rule(newVerb, newNoun, newAdjective, isRuleInverted));
+        SetRule(new Rule(newVerb, newNoun, newAdjective));
     }
 
     public void InvertRule()
     {
         isRuleInverted = !isRuleInverted;
-        currentRule.InvertRule();
     }
 
     public Rule RandomRule()
     {
         isRuleInverted = (rnd.Next(2) == 0);
-        RuleManager.Verbtype verb = GetRandomEnum<RuleManager.Verbtype>();
-        RuleManager.NounType noun = VerbToNoun[verb][rnd.Next(VerbToNoun[verb].Count)];
-        RuleManager.AdjectiveType adjective = NounToAdjective[noun][rnd.Next(NounToAdjective[noun].Count)];
-        return new Rule(verb, noun, adjective, isRuleInverted);
+        Verbtype verb = GetRandomEnum<Verbtype>();
+        NounType noun = VerbToNoun[verb][rnd.Next(VerbToNoun[verb].Count)];
+        AdjectiveType adjective = NounToAdjective[noun][rnd.Next(NounToAdjective[noun].Count)];
+        return new Rule(verb, noun, adjective);
     }
 
     void SetRule(Rule newRule)
     {
+        timer = 0.0f;
         currentRule = newRule;
+        Debug.Log(RuleToString(newRule));
     }
 
     string RuleToString(Rule rule)
@@ -274,6 +291,7 @@ public class RuleManager : MonoBehaviour
                             retString += "white ";
                             break;
                     }
+                    retString += "ball";
                 }
                 break;
 
