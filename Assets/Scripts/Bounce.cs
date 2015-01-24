@@ -18,9 +18,9 @@ public class Bounce : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.GetComponent<Ball>() != null)
+		if (other.gameObject.GetComponent<BallBehaviour>() != null)
 		{
-			other.transform.rigidbody2D.velocity *= -1;
+			other.transform.rigidbody2D.velocity *= -10;
 		}
 	}
 }

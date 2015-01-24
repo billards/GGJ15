@@ -3,23 +3,26 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Player))]
-public class Movement : MonoBehaviour, Noun
+public class PlayerBehaviour : MonoBehaviour, Noun
 {
 	// Normal Movements Variables
 	private float walkSpeed;
 	private float curSpeed;
 	private float maxSpeed;
 
-	private bool isDribbling = false;
+	private bool isGrabbing = false;
 
 	public float WalkSpeed = 5.0f;
-	public float DribbleSpeed = 4.0f;
+	public float GrabSpeed = 4.0f;
 	public float SpeedUpTime = 1.0f;
 	private Player player;
 
 	public float KickedForce = 1.0f;
 	public float StunnedTime = 2.0f;
+	public float LaunchSpeed = 100.0f;
 
+	private bool isGrabbed = false;
+	private Transform grabber;
 	private OrbitingAction actionCollider;
 	
 	void Start()
@@ -31,7 +34,7 @@ public class Movement : MonoBehaviour, Noun
 
 	void Update()
 	{
-		if (Input.GetButtonDown("Tag"+player.Number))
+		if (Input.GetButtonDown("Tag"+player.Number) && this.transform.childCount < 2)
 		{
 			actionCollider.PerformAction(RuleManager.Verbtype.Tag, true);
 		}
@@ -39,15 +42,19 @@ public class Movement : MonoBehaviour, Noun
 		{
 			actionCollider.PerformAction(RuleManager.Verbtype.Kick, true);
 		}
-		else if (Input.GetButtonDown("Grab"+player.Number))
+		else if (Input.GetButtonDown("Grab"+player.Number) && this.transform.childCount < 2)
 		{
 			actionCollider.PerformAction(RuleManager.Verbtype.Grab, true);
 		}
+		if (this.transform.childCount > 1) // we're holding onto something..
+			isGrabbing = true;
+		else
+			isGrabbing = false;
 	}
 
 	void FixedUpdate()
 	{
-		curSpeed = isDribbling ? DribbleSpeed : WalkSpeed;
+		curSpeed = isGrabbing ? GrabSpeed : WalkSpeed;
 		maxSpeed = curSpeed;
 
 		Vector2 input = new Vector2(Input.GetAxis ("Horizontal"+player.Number), Input.GetAxis("Vertical"+player.Number));
@@ -55,13 +62,13 @@ public class Movement : MonoBehaviour, Noun
 		/*rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input.x * curSpeed, SpeedUpTime),
 		                                   Mathf.Lerp(0, input.y * curSpeed, SpeedUpTime));*/
 		rigidbody2D.AddForce(input * curSpeed, ForceMode2D.Force);
-	}
 
-	public void ToggleDribbling()
-	{
-		this.isDribbling = !this.isDribbling;
+		if (isGrabbed)
+		{
+			Vector3 direction = this.transform.position - grabber.position;
+			this.rigidbody2D.AddForce(new Vector2(direction.x, direction.y) * LaunchSpeed/4.0f);
+		}
 	}
-
 	private void Kick()
 	{
 		// see if anything is hit by our kick
@@ -71,17 +78,22 @@ public class Movement : MonoBehaviour, Noun
 	// launch in the direction
 	public void Kicked(int player, Vector3 direction)
 	{
-		rigidbody2D.AddForce(direction);
+		rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
+		AudioManager.Instance.PlayKickPlayer();
 	}
 
 	public void Tagged(int player)
 	{
 		StartCoroutine("Stunned");
+		AudioManager.Instance.PlayTagPlayer();
 	}
 
 	public void Grabbed(int player)
 	{
 		// to implement
+		AudioManager.Instance.PlayGrabPlayer();
+		isGrabbed = true;
+		grabber = Camera.main.GetComponent<RuleManager>().players[player-1].transform;
 	}
 
 	IEnumerator Stunned()

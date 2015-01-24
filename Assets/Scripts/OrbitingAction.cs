@@ -76,7 +76,6 @@ public class OrbitingAction : MonoBehaviour
 	{
 		if (other.tag == "CanInteract")
 		{
-			print (other.gameObject.name);
 			Noun noun = null;
 			// if we get a collision with something, do the appropriate action on the parent
 			foreach (Component component in other.GetComponents (typeof(Component)))

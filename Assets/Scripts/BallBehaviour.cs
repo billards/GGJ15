@@ -5,9 +5,13 @@ using System.Collections;
  * The ball may or may not be attached to a player at any given time. 
  * If it is attached, we want the ball to spin to the position that the player is heading in.
  */
-public class Ball : MonoBehaviour, Noun
+public class BallBehaviour : MonoBehaviour, Noun
 {
+	public AudioClip KickedNoise;
+	public AudioClip TaggedNoise;
+	public AudioClip GrabbedNoise;
 	public float Cooldown = 1.0f;
+	public float LaunchSpeed = 50.0f;
 	private float cooldownTimer = 0.0f;
 	private GameObject[] players;
 	// Use this for initialization
@@ -38,15 +42,21 @@ public class Ball : MonoBehaviour, Noun
 		this.transform.localPosition = new Vector3(0, 0.25f, 0);
 		this.cooldownTimer = 0;
 		this.rigidbody2D.velocity = Vector2.zero;
+		AudioManager.Instance.PlayGrabBall();
 	}
 
 	public void Kicked(int player, Vector3 direction)
 	{
-
+		// remove any parenting
+		this.transform.parent = null;
+		this.rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
+		AudioManager.Instance.PlayKickBall();
 	}
 
 	public void Tagged(int player)
-	{}
+	{
+		// do nothing?
+	}
 
 	public bool IsOffCooldown()
 	{

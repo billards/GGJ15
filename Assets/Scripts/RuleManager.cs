@@ -3,7 +3,6 @@ using System.Collections;
 
 public class RuleManager : MonoBehaviour 
 {
-
     public enum Verbtype
     {
         Kick,
