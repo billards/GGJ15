@@ -4,9 +4,8 @@ using System.Collections;
 public class Switch : MonoBehaviour 
 {
     RuleManager ruleManager;
-    private bool isActivated = false;
-
     RuleManager.Rule switchRule;
+    private bool isActivated = false;
 
 	// Use this for initialization
 	void Start () 
@@ -38,7 +37,7 @@ public class Switch : MonoBehaviour
         }
     }
 
-    void SetType(RuleManager.Rule newRule)
+    void SetRule(RuleManager.Rule newRule)
     {
         switchRule = newRule; 
     }

@@ -23,22 +23,22 @@ public class GameStats : MonoBehaviour
         {
             case 1:
                 {
-                    p1Score = amount;
+                    p1Score += amount;
                     break;
                 }
             case 2:
                 {
-                    p2Score = amount;
+                    p2Score += amount;
                     break;
                 }
             case 3:
                 {
-                    p3Score = amount;
+                    p3Score += amount;
                     break;
                 }
             case 4:
                 {
-                    p4Score = amount;
+                    p4Score += amount;
                     break;
                 }
             default:
