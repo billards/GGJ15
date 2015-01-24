@@ -148,9 +148,11 @@ MonoBehaviour:
   WalkSpeed: 16
   GrabSpeed: 13.5
   SpeedUpTime: 1
+  KicksToFree: 3
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
+  GlobalCooldown: .25
 --- !u!50 &12295602
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -569,9 +571,11 @@ MonoBehaviour:
   WalkSpeed: 16
   GrabSpeed: 13.5
   SpeedUpTime: 1
+  KicksToFree: 3
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
+  GlobalCooldown: .25
 --- !u!114 &458399940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,9 +933,11 @@ MonoBehaviour:
   WalkSpeed: 16
   GrabSpeed: 13.5
   SpeedUpTime: 1
+  KicksToFree: 3
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
+  GlobalCooldown: .25
 --- !u!50 &1495460816
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -1169,9 +1175,11 @@ MonoBehaviour:
   WalkSpeed: 16
   GrabSpeed: 13.5
   SpeedUpTime: 1
+  KicksToFree: 3
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
+  GlobalCooldown: .25
 --- !u!50 &1660889246
 Rigidbody2D:
   m_ObjectHideFlags: 0

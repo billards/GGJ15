@@ -15,7 +15,9 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 	public float WalkSpeed = 5.0f;
 	public float GrabSpeed = 4.0f;
 	public float SpeedUpTime = 1.0f;
+	public int KicksToFree = 3;
 	private Player player;
+	private int kicksTaken = 0;
 
 	public float KickedForce = 1.0f;
 	public float StunnedTime = 2.0f;
@@ -24,32 +26,51 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 	private bool isGrabbed = false;
 	private Transform grabber;
 	private OrbitingAction actionCollider;
+
+	private float timer = 0;
+	public float GlobalCooldown = 0.25f;
 	
 	void Start()
 	{
 		this.player = GetComponent<Player>();
-		print (player.Number);
 		this.actionCollider = this.transform.GetChild(0).GetComponent<OrbitingAction>();
+		timer = GlobalCooldown;
 	}
 
 	void Update()
-	{
-		if (Input.GetButtonDown("Tag"+player.Number) && this.transform.childCount < 2)
+	{ 
+		// check if we're on the global cooldown - to prevent spamming
+		if ((timer += Time.deltaTime) >= GlobalCooldown)
 		{
-			actionCollider.PerformAction(RuleManager.Verbtype.Tag, true);
-		}
-		else if (Input.GetButton("Kick"+player.Number))
-		{
-			actionCollider.PerformAction(RuleManager.Verbtype.Kick, true);
-		}
-		else if (Input.GetButtonDown("Grab"+player.Number) && this.transform.childCount < 2)
-		{
-			actionCollider.PerformAction(RuleManager.Verbtype.Grab, true);
+			if (Input.GetButtonDown("Tag"+player.Number) && this.transform.childCount < 2)
+			{
+				actionCollider.PerformAction(RuleManager.Verbtype.Tag, true);
+				timer = 0;
+			}
+			else if (Input.GetButton("Kick"+player.Number))
+			{
+				actionCollider.PerformAction(RuleManager.Verbtype.Kick, true);
+				timer = 0;
+			}
+			else if (Input.GetButtonDown("Grab"+player.Number) && this.transform.childCount < 2 && !isGrabbed)
+			{
+				actionCollider.PerformAction(RuleManager.Verbtype.Grab, true);
+				timer = 0;
+			}
+			else if (Input.GetButtonDown ("Dash"+player.Number) && !isGrabbed)
+			{
+				Dash(new Vector2(Input.GetAxis ("Horizontal"+player.Number), Input.GetAxis("Vertical"+player.Number)));
+				timer = 0;
+			}
 		}
 		if (this.transform.childCount > 1) // we're holding onto something..
 			isGrabbing = true;
 		else
 			isGrabbing = false;
+
+		// if our grabber has taken enough kicks, free ourselves
+		if (grabber != null && grabber.gameObject.GetComponent<PlayerBehaviour>().hasTakenEnoughKicks())
+			isGrabbed = false;
 	}
 
 	void FixedUpdate()
@@ -63,37 +84,38 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		                                   Mathf.Lerp(0, input.y * curSpeed, SpeedUpTime));*/
 		rigidbody2D.AddForce(input * curSpeed, ForceMode2D.Force);
 
-		if (isGrabbed)
+		if (isGrabbed) // pull toward your grabber
 		{
 			Vector3 direction = this.transform.position - grabber.position;
-			this.rigidbody2D.AddForce(new Vector2(direction.x, direction.y) * LaunchSpeed/4.0f);
+			if (direction.magnitude < 0.40f)
+				direction = Vector3.zero;
+			this.rigidbody2D.AddForce(new Vector2(direction.x, direction.y) * LaunchSpeed/-7.0f);
 		}
-	}
-	private void Kick()
-	{
-		// see if anything is hit by our kick
-		// activate our kick collider
 	}
 
 	// launch in the direction
 	public void Kicked(int player, Vector3 direction)
 	{
+		isGrabbed = false;
 		rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
+		kicksTaken++;
 		AudioManager.Instance.PlayKickPlayer();
 	}
 
 	public void Tagged(int player)
 	{
+		//TODO: THIS
 		StartCoroutine("Stunned");
 		AudioManager.Instance.PlayTagPlayer();
 	}
 
 	public void Grabbed(int player)
 	{
-		// to implement
 		AudioManager.Instance.PlayGrabPlayer();
 		isGrabbed = true;
-		grabber = Camera.main.GetComponent<RuleManager>().players[player-1].transform;
+		GameObject grabberGO = Camera.main.GetComponent<RuleManager>().players[player-1];
+		grabberGO.GetComponent<PlayerBehaviour>().kicksTaken = 0;
+		grabber = grabberGO.transform;
 	}
 
 	IEnumerator Stunned()
@@ -105,5 +127,16 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 			this.rigidbody2D.velocity = Vector2.zero;
 			yield return new WaitForSeconds(1.0f);
 		}
+	}
+
+	public void Dash(Vector2 input)
+	{
+		print ("dash");
+		this.rigidbody2D.AddForce (input.normalized * LaunchSpeed/2.0f);
+	}
+
+	public bool hasTakenEnoughKicks()
+	{
+		return kicksTaken >= KicksToFree;
 	}
 }

@@ -6,7 +6,7 @@ public class OrbitingAction : MonoBehaviour
 {
 	public Sprite Hand;
 	public Sprite Foot;
-	public float KickDuration = 0.5f;
+	public float KickDuration = 0.25f;
 
 	private RuleManager.Verbtype verb;
 	private int player;
