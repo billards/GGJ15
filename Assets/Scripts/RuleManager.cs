@@ -181,6 +181,7 @@ public class RuleManager : MonoBehaviour
 
     public void CheckRule(int player, Rule rule)
     {
+        if (currentRule == null) return; 
         if (currentRule == rule && gameStats != null)
         {
             if (isRuleInverted)
