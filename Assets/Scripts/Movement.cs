@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Player))]
-public class Movement : MonoBehaviour 
+public class Movement : MonoBehaviour, Noun
 {
 	// Normal Movements Variables
 	private float walkSpeed;
@@ -16,6 +16,11 @@ public class Movement : MonoBehaviour
 	public float DribbleSpeed = 4.0f;
 	public float SpeedUpTime = 1.0f;
 	private Player player;
+
+	public float KickedForce = 1.0f;
+	public float StunnedTime = 2.0f;
+
+	private GameObject hitbox;
 	
 	void Start()
 	{
@@ -40,5 +45,38 @@ public class Movement : MonoBehaviour
 	public void ToggleDribbling()
 	{
 		this.isDribbling = !this.isDribbling;
+	}
+
+	private void Kick()
+	{
+		// see if anything is hit by our kick
+		// activate our kick collider
+	}
+
+	// launch in the direction
+	public void Kicked(int player, Vector3 direction)
+	{
+		rigidbody2D.AddForce(direction);
+	}
+
+	public void Tagged(int player)
+	{
+		StartCoroutine("Stunned");
+	}
+
+	public void Grabbed(int player)
+	{
+		// to implement
+	}
+
+	IEnumerator Stunned()
+	{
+		float timer = 0;
+		while (timer < StunnedTime)
+		{
+			timer += Time.deltaTime;
+			this.rigidbody2D.velocity = Vector2.zero;
+			yield return new WaitForSeconds(1.0f);
+		}
 	}
 }
