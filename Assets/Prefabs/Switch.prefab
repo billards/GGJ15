@@ -13,7 +13,7 @@ GameObject:
   - 61: {fileID: 6187834}
   m_Layer: 0
   m_Name: Switch
-  m_TagString: Untagged
+  m_TagString: CanInteract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 112972}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Size: {x: .5, y: .5}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11412972
@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ba03fb8ce129b4d8b92e54ee16d658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  switchType: 0
 --- !u!212 &21212972
 SpriteRenderer:
   m_ObjectHideFlags: 1

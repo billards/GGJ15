@@ -85,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 			UseStunnedSprite(false);
 		}
 		// release the tag hand
-		if (Input.GetButtonUp("Tag"+player.Number) && this.transform.childCount < 2)
+		if ((Input.GetButtonUp("Tag"+player.Number) || Input.GetButtonUp("Grab"+player.Number)) && this.transform.childCount < 2)
 		{
 			actionCollider.PerformAction(RuleManager.Verbtype.Tag, false);
 		}
@@ -179,12 +179,24 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 
 	public void Dash(Vector2 input)
 	{
-		AudioManager.Instance.PlayDash();
+		//AudioManager.Instance.PlayDash();
 		this.rigidbody2D.AddForce (input.normalized * LaunchSpeed/2.0f);
 	}
 
 	public bool hasTakenEnoughKicks()
 	{
 		return kicksTaken >= KicksToFree;
+	}
+
+	public void OnCollisionEnter2D(Collision2D other)
+	{
+		BallBehaviour bbComponent;
+		if ((bbComponent = other.gameObject.GetComponent<BallBehaviour>())!= null)
+		{
+			print (other.transform.rigidbody2D.velocity.magnitude+ " " + other.transform.rigidbody2D.constantForce);
+			// if the ball wasnt kicked by us and was going pretty fast, we'll get stunned
+			if (bbComponent.KickedBy != player.Number && other.transform.rigidbody2D.velocity.magnitude > 2.25f)
+				Tagged(bbComponent.KickedBy);
+		}
 	}
 }

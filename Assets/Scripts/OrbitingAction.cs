@@ -6,7 +6,7 @@ public class OrbitingAction : MonoBehaviour
 {
 	public Sprite Hand;
 	public Sprite Foot;
-	public float KickDuration = 0.25f;
+	public float KickDuration = 0.1f;
 
 	private RuleManager.Verbtype verb;
 	private int player;
@@ -29,7 +29,7 @@ public class OrbitingAction : MonoBehaviour
 	{
 		// get it down to a smaller number
 		Vector3 parentVelocity = this.transform.parent.rigidbody2D.velocity.normalized;
-		// we don't want the ball to return to the centre when the player is not moving
+		// we don't want the hand/foot to return to the centre when the player is not moving
 		if (parentVelocity.magnitude != 0)
 			transform.localPosition = new Vector3(parentVelocity.x/6, parentVelocity.y/6, 0);
 		if (timer > 0)

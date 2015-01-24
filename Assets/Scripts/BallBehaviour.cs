@@ -14,6 +14,7 @@ public class BallBehaviour : MonoBehaviour, Noun
 	public float LaunchSpeed = 50.0f;
 	private float cooldownTimer = 0.0f;
 	private GameObject[] players;
+	public int KickedBy { get; private set; }
 	// Use this for initialization
 	void Start () 
 	{
@@ -49,6 +50,7 @@ public class BallBehaviour : MonoBehaviour, Noun
 	{
 		// remove any parenting
 		this.transform.parent = null;
+		KickedBy = player;
 		this.rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
 		AudioManager.Instance.PlayKickBall();
 	}

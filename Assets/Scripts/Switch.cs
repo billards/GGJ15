@@ -66,6 +66,7 @@ public class Switch : MonoBehaviour, Noun
 
     public void Kicked(int player, Vector3 direction)
     {
+		print ("being kicked");
         Reset();
     }
 

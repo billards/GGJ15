@@ -152,7 +152,7 @@ MonoBehaviour:
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
-  GlobalCooldown: .25
+  GlobalCooldown: .300000012
   StunnedSprite: {fileID: 21300000, guid: 2ec1ade9f1256fb44a9453e26130b16f, type: 3}
   StunAnimations:
   - {fileID: 168340, guid: e7e39a13cef017740af8eb9ea8db80f9, type: 2}
@@ -290,7 +290,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.26999998
+  orthographic size: 2.22000003
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 21300000, guid: a16b6b31f15eb3f48bfc7c7240666ef8, type: 3}
   Foot: {fileID: 21300000, guid: ce68b1ecd538eee478be9f70212d567f, type: 3}
-  KickDuration: .25
+  KickDuration: .100000001
 --- !u!61 &389736133
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ MonoBehaviour:
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
-  GlobalCooldown: .25
+  GlobalCooldown: .300000012
   StunnedSprite: {fileID: 21300000, guid: dc22f7361a7920246ba532b5c95c84dc, type: 3}
   StunAnimations:
   - {fileID: 168340, guid: e7e39a13cef017740af8eb9ea8db80f9, type: 2}
@@ -695,7 +695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 21300000, guid: fb42fc6257ad45148a90a53cd25bf959, type: 3}
   Foot: {fileID: 21300000, guid: 9f0dd45f5f39c174d87197c711a6a955, type: 3}
-  KickDuration: .25
+  KickDuration: .100000001
 --- !u!61 &600914640
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -864,6 +864,14 @@ Prefab:
       propertyPath: StunAnimations.Array.data[1]
       value: 
       objectReference: {fileID: 183624, guid: abe6c19319beda4439c4f0fa90e613d7, type: 2}
+    - target: {fileID: 11499178, guid: 671e0d0600c506e4894a0744f35fc02c, type: 2}
+      propertyPath: GlobalCooldown
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 11473276, guid: 671e0d0600c506e4894a0744f35fc02c, type: 2}
+      propertyPath: KickDuration
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 671e0d0600c506e4894a0744f35fc02c, type: 2}
   m_RootGameObject: {fileID: 1660889241}
@@ -987,7 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 21300000, guid: 41114afaee177f64f90b48eb38af7886, type: 3}
   Foot: {fileID: 21300000, guid: 03b6d6400462801439d3de512922e393, type: 3}
-  KickDuration: .25
+  KickDuration: .100000001
 --- !u!61 &1040971903
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1086,6 +1094,14 @@ Prefab:
       propertyPath: StunAnimations.Array.data[1]
       value: 
       objectReference: {fileID: 183624, guid: abe6c19319beda4439c4f0fa90e613d7, type: 2}
+    - target: {fileID: 11452780, guid: c902174acf022094eb680a9fc77e4149, type: 2}
+      propertyPath: GlobalCooldown
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476834, guid: c902174acf022094eb680a9fc77e4149, type: 2}
+      propertyPath: KickDuration
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c902174acf022094eb680a9fc77e4149, type: 2}
   m_RootGameObject: {fileID: 1495460811}
@@ -1239,7 +1255,7 @@ MonoBehaviour:
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
-  GlobalCooldown: .25
+  GlobalCooldown: .300000012
   StunnedSprite: {fileID: 21300000, guid: 80aeec530cb355f41bd9bf3d991bd38d, type: 3}
   StunAnimations:
   - {fileID: 168340, guid: e7e39a13cef017740af8eb9ea8db80f9, type: 2}
@@ -1366,14 +1382,14 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1496025496}
   m_Mass: .100000001
-  m_LinearDrag: 2
+  m_LinearDrag: 1.5
   m_AngularDrag: 0
   m_GravityScale: 0
   m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!212 &1496025500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1485,7 +1501,7 @@ MonoBehaviour:
   KickedForce: 1
   StunnedTime: 2
   LaunchSpeed: 250
-  GlobalCooldown: .25
+  GlobalCooldown: .300000012
   StunnedSprite: {fileID: 21300000, guid: 42eae0c71020c03488b3d235fc38c1d7, type: 3}
   StunAnimations:
   - {fileID: 168340, guid: e7e39a13cef017740af8eb9ea8db80f9, type: 2}
@@ -1699,6 +1715,14 @@ Prefab:
       propertyPath: StunAnimations.Array.data[1]
       value: 
       objectReference: {fileID: 183624, guid: abe6c19319beda4439c4f0fa90e613d7, type: 2}
+    - target: {fileID: 11498328, guid: 80c8440155aba0943b704434bf28b25e, type: 2}
+      propertyPath: GlobalCooldown
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 11416294, guid: 80c8440155aba0943b704434bf28b25e, type: 2}
+      propertyPath: KickDuration
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80c8440155aba0943b704434bf28b25e, type: 2}
   m_RootGameObject: {fileID: 12295597}
@@ -1935,6 +1959,14 @@ Prefab:
       propertyPath: StunAnimations.Array.data[1]
       value: 
       objectReference: {fileID: 183624, guid: abe6c19319beda4439c4f0fa90e613d7, type: 2}
+    - target: {fileID: 11410058, guid: 149c0f65451a265459ef7cb27f8f90e1, type: 2}
+      propertyPath: GlobalCooldown
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 11460090, guid: 149c0f65451a265459ef7cb27f8f90e1, type: 2}
+      propertyPath: KickDuration
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 149c0f65451a265459ef7cb27f8f90e1, type: 2}
   m_RootGameObject: {fileID: 458399935}
@@ -2019,7 +2051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 21300000, guid: 498257e2dd2ccb646913713d17271e60, type: 3}
   Foot: {fileID: 21300000, guid: bdb718acaaeeba84c8f0beffa841e00b, type: 3}
-  KickDuration: .25
+  KickDuration: .100000001
 --- !u!1 &2019750898
 GameObject:
   m_ObjectHideFlags: 0
