@@ -3,17 +3,17 @@ using System.Collections;
 
 public class Switch : MonoBehaviour 
 {
-    RuleManager ruleManager;
+    SwitchManager switchManager;
     RuleManager.Rule switchRule;
     private bool isActivated = false;
 
 	// Use this for initialization
 	void Start () 
     {
-        ruleManager = Camera.main.GetComponent<RuleManager>() as RuleManager;
+        switchManager = Camera.main.GetComponent<SwitchManager>() as SwitchManager;
 
-        if (ruleManager != null)
-            ruleManager.AddSwitch(this);
+        if (switchManager != null)
+            switchManager.AddSwitch(this);
 	}
 	
 	// Update is called once per frame
@@ -21,19 +21,20 @@ public class Switch : MonoBehaviour
     {
         if (isActivated)
         {
-            if (ruleManager != null)
-                ruleManager.Remove(this);
+            if (switchManager != null)
+                switchManager.Remove(this);
         }
 	}
 
     void OnTriggerStay2D(Collider2D other)
     {
-        // Activate new Rule
-
-        if(Input.GetButtonDown("Kick1"))
+        if(Input.GetButtonDown("Grab1"))
         {
-            isActivated = true;
-            Debug.Log("Switch Activated");
+            if(isActivated == false && other.tag == "CanInteract")
+            {
+                isActivated = true;
+                Debug.Log("Switch Activated");
+            }
         }
     }
 
