@@ -37,15 +37,16 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 
+	public GameObject[] StunAnimations;
+
 	void Start()
 	{
 		player = GetComponent<Player>();
-		actionCollider = this.transform.GetChild(0).GetComponent<OrbitingAction>();
+		actionCollider = this.GetComponentInChildren<OrbitingAction>();
 		timer = GlobalCooldown;
 		spriteRenderer = this.GetComponent<SpriteRenderer>();
 		normalSprite = spriteRenderer.sprite;
 		animator = this.GetComponent<Animator>();
-
 	}
 
 	void Update()
@@ -124,12 +125,21 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 
 	private void UseStunnedSprite(bool stunned)
 	{
-		if (stunned)
+		// if we're grabbed or stunned, always set to false
+		if (isStunned || isGrabbed)
+		{
 			spriteRenderer.sprite = StunnedSprite;
+			animator.enabled = false;
+		}
 		else
-			spriteRenderer.sprite = normalSprite;
-		// need to stop the animator or it will overwrite any changes
-		animator.enabled = !stunned;
+		{
+			if (stunned)
+				spriteRenderer.sprite = StunnedSprite;
+			else
+				spriteRenderer.sprite = normalSprite;
+			// need to stop the animator or it will overwrite any changes
+			animator.enabled = !stunned;
+		}
 	}
 
 	// launch in the direction
@@ -144,10 +154,17 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 
 	public void Tagged(int player)
 	{
-		AudioManager.Instance.PlayTagPlayer();
-		isStunned = true;
-		stunnedTimer = 0;
-		UseStunnedSprite(true);
+		if (!isStunned) // don't allow chain stuns
+		{
+			AudioManager.Instance.PlayTagPlayer();
+			isStunned = true;
+			stunnedTimer = 0;
+			UseStunnedSprite(true);
+			int rand = Random.Range(0, StunAnimations.Length);
+			GameObject stunnedAnimation = Instantiate(StunAnimations[rand], new Vector3(transform.position.x, transform.position.y + 0.125f, 0), Quaternion.identity) as GameObject;
+			stunnedAnimation.transform.parent = this.transform;
+			stunnedAnimation.GetComponent<SelfDestruct>().SelfDestructTime = StunnedTime;
+		}
 	}
 
 	public void Grabbed(int player)
@@ -158,18 +175,6 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		grabberGO.GetComponent<PlayerBehaviour>().kicksTaken = 0;
 		grabber = grabberGO.transform;
 		UseStunnedSprite(true);
-	}
-
-	IEnumerator Stunned()
-	{
-		AudioManager.Instance.PlayTagPlayer();
-		float timer = 0;
-		while (timer < StunnedTime)
-		{
-			timer += Time.deltaTime;
-			this.rigidbody2D.velocity = Vector2.zero;
-			yield return new WaitForSeconds(1.0f);
-		}
 	}
 
 	public void Dash(Vector2 input)
