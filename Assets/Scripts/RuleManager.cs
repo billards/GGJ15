@@ -101,7 +101,7 @@ public class RuleManager : MonoBehaviour
         }
     }
 
-    GameObject[] players;         // Reference to the players in scene
+    public GameObject[] players;  // Reference to the players in scene
     ArrayList switches;           // Switches currently in the scene
     Rule currentRule;             // The current rule the game is operating off of
     GameStats gameStats;          // For updating scores
@@ -152,7 +152,7 @@ public class RuleManager : MonoBehaviour
         }
     }
 
-    // Future function to support multiple nouns
+    //Future function to support multiple nouns
     //public void CheckRule(int player, Verbtype verb, NounType noun, NounType noun2, string adjective)
     //{
     //

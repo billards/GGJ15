@@ -30,16 +30,15 @@ public class Switch : MonoBehaviour
     {
         // Activate new Rule
 
-        if(Input.GetButtonDown("Interact1"))
+        if(Input.GetButtonDown("Kick1"))
         {
             isActivated = true;
             Debug.Log("Switch Activated");
         }
     }
 
-    void SetRule(RuleManager.Rule newRule)
+    public void SetRule(RuleManager.Rule newRule)
     {
-        switchRule = newRule; 
+        switchRule = newRule;
     }
-
 }
