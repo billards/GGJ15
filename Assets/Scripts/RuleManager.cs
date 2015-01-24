@@ -6,9 +6,9 @@ public class RuleManager : MonoBehaviour
 
     public enum Verbtype
     {
-        Hit,
+        Kick,
         Grab,
-        Stun,
+        Tag,
         Bring
     }
 
@@ -18,49 +18,74 @@ public class RuleManager : MonoBehaviour
         Player
     }
 
-    public enum Rule
+    public enum AdjectiveType
     {
-        NO_RULE,                  // No current rule
-        KICK,                     // Kicking the ball
-        RED_BALL,                 // Sets target to red ball
-        BLUE_BALL,                // Sets target to blue ball
-        WHITE_BALL,               // Sets target to white blue
-        SCORE,                    // Bring the ball to current zone
-        KEEP,                     // Hold onto the ball
-        DONOT                     // Negates the requirements of the current rule
-    };
+        Blue,
+        Red,
+        White,
+        One,
+        Two,
+        Three,
+        Four
+    }
 
-    Rule rule;                    // The current rule in play
-    ArrayList switches;           // Switches currently in the scene
+    //Current
+    public class Rule
+    {
+        Rule();
+        Verbtype verbTarget;
+        NounType nounTarget;
+        string adjective = "";
 
-    Verbtype verbTarget;
-    NounType nounTarget;
-    string adjective = "";
+        bool operator==(Rule one, Rule two)
+        {
+            if(one.verbTarget == two.verbTarget)
+            {
+                if (one.nounTarget == two.nounTarget)
+                {
+                    if (one.adjective == two.adjective)
+                        return true;
+                    else 
+                        return false;
+                }
+                else 
+                    return false;
+            }
+            else
+                return false;
+        }
+    }
+
     public GameObject[] players;  // Reference to the players in scene
+    ArrayList switches;           // Switches currently in the scene
 
     const float MAX_TIME = 10.0f; // Maximum time a rule can be in play
     float timer = 0.0f;           // A timer counting to MAX_TIME
 
+    void Awake()
+    {
+        switches = new ArrayList();
+    }
+
 	// Use this for initialization
 	void Start () 
     {
-        switches = new ArrayList();
+
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        if(rule != Rule.NO_RULE)
-            timer += Time.deltaTime;
+        //if(rule != Rule.NO_RULE)
+        //    timer += Time.deltaTime;
 
         if (timer >= MAX_TIME)
-        {
             timer = 0.0f;
-        }
 	}
 
     public void AddSwitch(Switch gameSwitch)
     {
+        Debug.Log(gameSwitch);
         switches.Add(gameSwitch);
         Debug.Log(gameSwitch + " Added");
     }
@@ -77,6 +102,6 @@ public class RuleManager : MonoBehaviour
 
     public void CheckRule(int player, Verbtype verb, NounType noun, string adjective)
     {
-
+        
     }
 }
