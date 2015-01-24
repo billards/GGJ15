@@ -1,36 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Switch : MonoBehaviour {
+public class Switch : MonoBehaviour 
+{
 
+    SwitchManager switchManager;
+    RuleManager ruleManager;
     private bool isActivated = false;
+
+    RuleManager.Rule switchRule;
 
 	// Use this for initialization
 	void Start () 
     {
-	
+        switchManager = Camera.main.GetComponent<SwitchManager>() as SwitchManager;
+        ruleManager = Camera.main.GetComponent<RuleManager>() as RuleManager;
+
+        if (switchManager != null)
+            switchManager.AddSwitch(this.gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
         if (isActivated)
-            Remove();
+        {
+            if(switchManager != null)
+                switchManager.Remove(this);
+        }
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         // Activate new Rule
 
-        isActivated = true;
-        Debug.Log("Switch Activated");
+        if(Input.GetButtonDown("Interact1"))
+        {
+            isActivated = true;
+            Debug.Log("Switch Activated");
+        }
     }
 
-    private void Remove()
+    void SetType(RuleManager.Rule newRule)
     {
-        DestroyObject(this.gameObject);
-
-        //Visual effects for switch removal
+        switchRule = newRule; 
     }
-    
+
 }
