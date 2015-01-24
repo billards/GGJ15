@@ -72,6 +72,6 @@ public class AudioManager : MonoBehaviour
 	
 	public void PlayDash()
 	{
-		audioSource.PlayOneShot(Dash);
+		audioSource.PlayOneShot(Dash, 0.5f);
 	}
 }
