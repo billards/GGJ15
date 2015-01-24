@@ -182,14 +182,6 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 
 	public void Tagged(int player)
 	{
-<<<<<<< HEAD
-		AudioManager.Instance.PlayTagPlayer();
-		isStunned = true;
-		stunnedTimer = 0;
-		UseStunnedSprite(true);
-
-        RuleManager.instance.CheckRule(player, Verbtype.Tag, NounType.Player, Adjective);
-=======
 		if (!isStunned) // don't allow chain stuns
 		{
 			AudioManager.Instance.PlayTagPlayer();
@@ -201,7 +193,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 			stunnedAnimation.transform.parent = this.transform;
 			stunnedAnimation.GetComponent<SelfDestruct>().SelfDestructTime = StunnedTime;
 		}
->>>>>>> origin/master
+
+        RuleManager.instance.CheckRule(player, Verbtype.Tag, NounType.Player, Adjective);
 	}
 
 	public void Grabbed(int player)
