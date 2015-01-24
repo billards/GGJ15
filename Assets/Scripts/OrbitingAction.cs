@@ -6,10 +6,12 @@ public class OrbitingAction : MonoBehaviour
 {
 	public Sprite Hand;
 	public Sprite Foot;
+	public float KickDuration = 0.5f;
 
 	private RuleManager.Verbtype verb;
 	private int player;
-
+	private float timer = 0;
+	private SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
 	void Start () 
@@ -19,6 +21,7 @@ public class OrbitingAction : MonoBehaviour
 		// turn off the 
 		this.collider2D.enabled = false;
 		this.player = this.transform.GetComponentInParent<Player>().Number;
+		this.spriteRenderer = this.GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -28,26 +31,55 @@ public class OrbitingAction : MonoBehaviour
 		Vector3 parentVelocity = this.transform.parent.rigidbody2D.velocity.normalized;
 		// we don't want the ball to return to the centre when the player is not moving
 		if (parentVelocity.magnitude != 0)
-			transform.localPosition = new Vector3(parentVelocity.x/4, parentVelocity.y/4, 0);
+			transform.localPosition = new Vector3(parentVelocity.x/6, parentVelocity.y/6, 0);
+		if (timer > 0)
+		{
+			timer -= Time.deltaTime;
+		}
+		else
+		{
+			timer = 0;
+			if (spriteRenderer.sprite == this.Foot)
+				toggle(false);
+		}
 	}
 
 	public void PerformAction(RuleManager.Verbtype verb, bool enable)
 	{
-		// turn off the visual
-		this.renderer.enabled = enable;
-		// turn off the collider
-		this.collider2D.enabled = enable;
+		toggle (enable);
 		// change the state
 		this.verb = verb;
+		switch (verb)
+		{
+			case RuleManager.Verbtype.Grab :
+			case RuleManager.Verbtype.Tag :
+				spriteRenderer.sprite = this.Hand;
+				break;
+			case RuleManager.Verbtype.Kick:
+				spriteRenderer.sprite = this.Foot;
+				this.timer = KickDuration;
+				break;
+			default :
+				break;
+		}
+	}
+
+	private void toggle(bool value)
+	{
+		// turn off the visual
+		this.renderer.enabled = value;
+		// turn off the collider
+		this.collider2D.enabled = value;
 	}
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "CanInteract")
 		{
+			print (other.gameObject.name);
 			Noun noun = null;
 			// if we get a collision with something, do the appropriate action on the parent
-			foreach (Component component in GetComponents (typeof(Component)))
+			foreach (Component component in other.GetComponents (typeof(Component)))
 			{
 				if (component is Noun)
 				{
@@ -71,6 +103,7 @@ public class OrbitingAction : MonoBehaviour
 					default :
 						break;
 				}
+				toggle(false);
 			}
 		}
 	}

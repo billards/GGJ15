@@ -20,22 +20,37 @@ public class Movement : MonoBehaviour, Noun
 	public float KickedForce = 1.0f;
 	public float StunnedTime = 2.0f;
 
-	private GameObject hitbox;
+	private OrbitingAction actionCollider;
 	
 	void Start()
 	{
-		player = GetComponent<Player>();
+		this.player = GetComponent<Player>();
 		print (player.Number);
+		this.actionCollider = this.transform.GetChild(0).GetComponent<OrbitingAction>();
 	}
-	
+
+	void Update()
+	{
+		if (Input.GetButtonDown("Tag"+player.Number))
+		{
+			actionCollider.PerformAction(RuleManager.Verbtype.Tag, true);
+		}
+		else if (Input.GetButton("Kick"+player.Number))
+		{
+			actionCollider.PerformAction(RuleManager.Verbtype.Kick, true);
+		}
+		else if (Input.GetButtonDown("Grab"+player.Number))
+		{
+			actionCollider.PerformAction(RuleManager.Verbtype.Grab, true);
+		}
+	}
+
 	void FixedUpdate()
 	{
 		curSpeed = isDribbling ? DribbleSpeed : WalkSpeed;
 		maxSpeed = curSpeed;
 
 		Vector2 input = new Vector2(Input.GetAxis ("Horizontal"+player.Number), Input.GetAxis("Vertical"+player.Number));
-		//print(input.magnitude);
-		print (player.Number);
 
 		/*rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input.x * curSpeed, SpeedUpTime),
 		                                   Mathf.Lerp(0, input.y * curSpeed, SpeedUpTime));*/

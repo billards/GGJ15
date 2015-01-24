@@ -16,7 +16,7 @@ public class BallSteal : MonoBehaviour
 	
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	/*void OnTriggerEnter2D(Collider2D other)
 	{
 		// if the other collider is a ball and can be stolen (not on cooldown), do so.
 		if (other.GetComponent<Ball>() != null)
@@ -31,7 +31,7 @@ public class BallSteal : MonoBehaviour
 				this.GetComponent<Movement>().ToggleDribbling();
 			}
 		}
-	}
+	}*/
 
 	/*void OnCollisionEnter2D(Collision2D other)
 	{

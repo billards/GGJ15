@@ -5,14 +5,15 @@ using System.Collections;
  * The ball may or may not be attached to a player at any given time. 
  * If it is attached, we want the ball to spin to the position that the player is heading in.
  */
-public class Ball : MonoBehaviour 
+public class Ball : MonoBehaviour, Noun
 {
 	public float Cooldown = 1.0f;
 	private float cooldownTimer = 0.0f;
+	private GameObject[] players;
 	// Use this for initialization
 	void Start () 
 	{
-	
+		players = Camera.main.GetComponent<RuleManager>().players;
 	}
 	
 	// Update is called once per frame
@@ -29,14 +30,23 @@ public class Ball : MonoBehaviour
 		cooldownTimer += Time.deltaTime;
 	}
 
-	public void Steal(Transform newParent)
+	public void Grabbed(int player)
 	{
 		// start the cooldown timer and change who the parent is, also reset the localposition
-		this.transform.parent = newParent;
+		print (player);
+		this.transform.parent = players[player-1].transform;
 		this.transform.localPosition = new Vector3(0, 0.25f, 0);
 		this.cooldownTimer = 0;
 		this.rigidbody2D.velocity = Vector2.zero;
 	}
+
+	public void Kicked(int player, Vector3 direction)
+	{
+
+	}
+
+	public void Tagged(int player)
+	{}
 
 	public bool IsOffCooldown()
 	{
