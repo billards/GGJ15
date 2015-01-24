@@ -3,6 +3,9 @@ using System.Collections;
 
 public class RuleManager : MonoBehaviour 
 {
+
+    public static RuleManager instance;
+
     public enum Verbtype
     {
         Kick,
@@ -101,7 +104,6 @@ public class RuleManager : MonoBehaviour
     }
 
     public GameObject[] players;  // Reference to the players in scene
-    ArrayList switches;           // Switches currently in the scene
     Rule currentRule;             // The current rule the game is operating off of
     GameStats gameStats;          // For updating scores
     const float MAX_TIME = 10.0f; // Maximum time a rule can be in play
@@ -109,12 +111,13 @@ public class RuleManager : MonoBehaviour
 
     void Awake()
     {
-        switches = new ArrayList();
+
     }
 
 	// Use this for initialization
 	void Start () 
     {
+        instance = this;
         gameStats = Camera.main.GetComponent<GameStats>() as GameStats;
         currentRule = new Rule();
 	}
@@ -125,23 +128,6 @@ public class RuleManager : MonoBehaviour
         if (timer >= MAX_TIME)
             timer = 0.0f;
 	}
-
-    public void AddSwitch(Switch gameSwitch)
-    {
-        Debug.Log(gameSwitch);
-        switches.Add(gameSwitch);
-        Debug.Log(gameSwitch + " Added");
-    }
-
-    public void Remove(Switch gameSwitch)
-    {
-        foreach (Switch s in switches)
-        {
-            if (s.Equals(gameSwitch))
-                switches.Remove(s);
-            Debug.Log(s + " Removed");
-        }
-    }
 
     public void CheckRule(int player, Rule rule)
     {
@@ -156,4 +142,9 @@ public class RuleManager : MonoBehaviour
     //{
     //
     //}
+
+    void SetRule(Rule newRule)
+    {
+        currentRule = newRule;
+    }
 }

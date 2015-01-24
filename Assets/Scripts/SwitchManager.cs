@@ -26,28 +26,45 @@ public class SwitchManager : MonoBehaviour
             float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
 
             GameObject gameSwitch = Instantiate(switchPrefab, new Vector3(randX, randY, 0.0f), Quaternion.identity) as GameObject;
-            
+
+            RuleManager.Verbtype verb = GetRandomEnum<RuleManager.Verbtype>();
+            RuleManager.NounType noun = GetRandomEnum<RuleManager.NounType>();
+            RuleManager.AdjectiveType adjective = GetRandomEnum<RuleManager.AdjectiveType>();
+
+            Debug.Log(verb + " " + noun + " " + adjective);
+
             if (gameSwitch != null)
-                gameSwitch.GetComponent<Switch>().SetRule(new RuleManager.Rule(RuleManager.Verbtype.Bring, RuleManager.NounType.Ball, ""));
+                gameSwitch.GetComponent<Switch>().SetRule(new RuleManager.Rule(verb, noun, adjective.ToString()));
+
+            switches.Add(Instantiate(switchPrefab, new Vector2(randX, randY), Quaternion.identity));
 
             //Keeping track of references to switches in current scene
-            switches.Add(Instantiate(switchPrefab, new Vector2(randX, randY), Quaternion.identity));
+            Debug.Log("Switch " + switches.Count + " Added!");
         }
 	}
+
+    private static T GetRandomEnum<T>()
+    {
+        System.Array A = System.Enum.GetValues(typeof(T));
+        T V = (T)A.GetValue(UnityEngine.Random.Range(0, A.Length));
+        return V;
+    }
 
     public void AddSwitch(Switch gameSwitch)
     {
         switches.Add(gameSwitch);
         Debug.Log(gameSwitch + " Added");
     }
-
+    
     public void Remove(Switch gameSwitch)
     {
-        foreach (Switch s in switches)
+        for (int i = 0; i < switches.Count; ++i)
         {
-            if (s.Equals(gameSwitch))
-                switches.Remove(s);
-            Debug.Log(s + " Removed");
+            if (i.Equals(gameSwitch))
+                switches.Remove(i);
+
+            Destroy(gameSwitch.gameObject);
+            Debug.Log(i + " Removed");
         }
     }
 }
