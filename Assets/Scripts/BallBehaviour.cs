@@ -30,7 +30,7 @@ public class BallBehaviour : MonoBehaviour, Noun
 			Vector3 parentVelocity = this.transform.parent.rigidbody2D.velocity.normalized;
 			// we don't want the ball to return to the centre when the player is not moving
 			if (parentVelocity.magnitude != 0)
-				transform.localPosition = new Vector3(parentVelocity.x/4, parentVelocity.y/4, 0);
+				transform.localPosition = new Vector3(parentVelocity.x/3, parentVelocity.y/3, 0);
 		}
 		cooldownTimer += Time.deltaTime;
 	}

@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11412972}
   - 212: {fileID: 21212972}
   - 61: {fileID: 6187834}
+  - 95: {fileID: 9588408}
   m_Layer: 0
   m_Name: Switch
   m_TagString: CanInteract
@@ -37,10 +38,25 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112972}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f5d4f53091771754f8646659eac3ae40, type: 2}
   m_IsTrigger: 0
   m_Size: {x: .248393744, y: .196782112}
   m_Center: {x: .00322580338, y: -.0548372269}
+--- !u!95 &9588408
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112972}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5a0133b283de9a4b87041938198fa60, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11412972
 MonoBehaviour:
   m_ObjectHideFlags: 1

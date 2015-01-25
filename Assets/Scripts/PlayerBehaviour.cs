@@ -99,6 +99,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		{
 			isGrabbed = false;
 			UseStunnedSprite(false);
+			grabber.gameObject.GetComponent<PlayerBehaviour>().Tagged(player.Number);
+			grabber = null;
 		}
 	}
 
@@ -169,20 +171,30 @@ public class PlayerBehaviour : MonoBehaviour, Noun
         set { }
     }
 
+	public IEnumerator HurtAnimation()
+	{
+		print ("hurt anim");
+		animator.SetBool("isHurt", true);
+		yield return new WaitForSeconds(1);
+		animator.SetBool("isHurt", false);
+		animator.SetInteger("state", 1)
+	}
+
 	public void Kicked(int player, Vector3 direction)
 	{
 		isGrabbed = false;
 		UseStunnedSprite(false);
-		rigidbody2D.AddForce(direction.normalized * LaunchSpeed);
+		rigidbody2D.AddForce(direction * LaunchSpeed);
 		kicksTaken++;
 		AudioManager.Instance.PlayKickPlayer();
+		StartCoroutine("HurtAnimation");
 
         RuleManager.instance.CheckRule(player, Verbtype.Kick, NounType.Player, Adjective);
 	}
 
 	public void Tagged(int player)
 	{
-		if (!isStunned) // don't allow chain stuns
+		if (!isStunned && !isGrabbed) // don't allow chain stuns
 		{
 			AudioManager.Instance.PlayTagPlayer();
 			isStunned = true;
@@ -192,6 +204,19 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 			GameObject stunnedAnimation = Instantiate(StunAnimations[rand], new Vector3(transform.position.x, transform.position.y + 0.125f, 0), Quaternion.identity) as GameObject;
 			stunnedAnimation.transform.parent = this.transform;
 			stunnedAnimation.GetComponent<SelfDestruct>().SelfDestructTime = StunnedTime;
+			// drop any ball(s?) you are carrying
+			BallBehaviour[] comps = this.transform.GetComponentsInChildren<BallBehaviour>();
+			if (comps != null)
+			{
+				foreach (BallBehaviour component in comps)
+				{
+					Vector3 direction = new Vector3(Input.GetAxis ("Horizontal"+this.player.Number), Input.GetAxis("Vertical"+this.player.Number), 0);
+					direction = direction.normalized / 2.0f;
+					component.Kicked (this.player.Number, direction);
+				}
+			}
+			kicksTaken = KicksToFree+1; // +1 just to be sure, should release anything we're holding
+
 		}
 
         RuleManager.instance.CheckRule(player, Verbtype.Tag, NounType.Player, Adjective);
@@ -212,7 +237,7 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 	public void Dash(Vector2 input)
 	{
 		//AudioManager.Instance.PlayDash();
-		this.rigidbody2D.AddForce (input.normalized * LaunchSpeed/2.0f);
+		this.rigidbody2D.AddForce (input.normalized * LaunchSpeed * 0.5f);
 	}
 
 	public bool hasTakenEnoughKicks()
@@ -227,7 +252,7 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		{
 			print (other.transform.rigidbody2D.velocity.magnitude+ " " + other.transform.rigidbody2D.constantForce);
 			// if the ball wasnt kicked by us and was going pretty fast, we'll get stunned
-			if (bbComponent.KickedBy != player.Number && other.transform.rigidbody2D.velocity.magnitude > 2.25f)
+			if (other.transform.rigidbody2D.velocity.magnitude > 3.5f)
 				Tagged(bbComponent.KickedBy);
 		}
 	}
