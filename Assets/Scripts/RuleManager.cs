@@ -70,13 +70,13 @@ public class RuleManager : MonoBehaviour
             return adjective;
         }
 
-        static public bool operator==(Rule one, Rule two)
+        public bool Equals(Rule other)
         {
-            if(one.verbTarget == two.verbTarget)
+            if(this.verbTarget == other.verbTarget)
             {
-                if (one.nounTarget == two.nounTarget)
+				if (this.nounTarget == other.nounTarget)
                 {
-                    if (one.adjective == two.adjective)
+					if (this.adjective == other.adjective)
                         return true;
                     else 
                         return false;
@@ -86,24 +86,6 @@ public class RuleManager : MonoBehaviour
             }
             else
                 return false;
-        }
-
-        static public bool operator !=(Rule one, Rule two)
-        {
-            if (one.verbTarget == two.verbTarget)
-            {
-                if (one.nounTarget == two.nounTarget)
-                {
-                    if (one.adjective == two.adjective)
-                        return false;
-                    else
-                        return true;
-                }
-                else
-                    return true;
-            }
-            else
-                return true;
         }
     }
 
@@ -182,7 +164,7 @@ public class RuleManager : MonoBehaviour
     public void CheckRule(int player, Rule rule)
     {
         if (currentRule == null) return; 
-        if (currentRule == rule && gameStats != null)
+        if (currentRule.Equals (rule) && gameStats != null)
         {
             if (isRuleInverted)
             {

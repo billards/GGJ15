@@ -44,19 +44,22 @@ public class SwitchManager : MonoBehaviour
     {
         if (startSpawning)
         {
-            if (timeTillOnOffSwitchSpawn >= timeBuffer)
+            if (timeTillOnOffSwitchSpawn <= timeBuffer && !OnOffSwitchSpawned)
             {
                 SpawnOnOffSwitch();
+				OnOffSwitchSpawned = true;
             }
 
-            if (timeTillNounSwitchSpawn >= timeBuffer)
+            if (timeTillNounSwitchSpawn <= timeBuffer && !nounSwitchSpawned)
             {
                 SpawnNounSwitch();
+				nounSwitchSpawned = true;
             }
 
-            if (timeTillVerbSwitchSpawn >= timeBuffer)
+            if (timeTillVerbSwitchSpawn <= timeBuffer && !verbSwitchSpawned)
             {
                 SpawnVerbSwitch();
+				verbSwitchSpawned = true;
             }
 
             timeBuffer += Time.deltaTime;
