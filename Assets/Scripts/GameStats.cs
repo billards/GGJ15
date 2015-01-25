@@ -76,8 +76,6 @@ public class GameStats : MonoBehaviour
                     }
             }
         }
-
-        Debug.Log("P1: " + p1Score + " P2: " + p2Score + " P3: " + p3Score + " P4: " + p4Score);
     }
 
     public void CheckForNegativeScore()

@@ -46,19 +46,19 @@ public class SwitchManager : MonoBehaviour
         {
             if (timeTillOnOffSwitchSpawn <= timeBuffer && !OnOffSwitchSpawned)
             {
-                SpawnOnOffSwitch();
+                SpawnSwitch();
 				OnOffSwitchSpawned = true;
             }
 
             if (timeTillNounSwitchSpawn <= timeBuffer && !nounSwitchSpawned)
             {
-                SpawnNounSwitch();
+                SpawnSwitch();
 				nounSwitchSpawned = true;
             }
 
             if (timeTillVerbSwitchSpawn <= timeBuffer && !verbSwitchSpawned)
             {
-                SpawnVerbSwitch();
+                SpawnSwitch();
 				verbSwitchSpawned = true;
             }
 
@@ -67,28 +67,10 @@ public class SwitchManager : MonoBehaviour
         }
     }
 
-    Switch OnOffSwitch;
-    void SpawnOnOffSwitch()
+    void SpawnSwitch()
     {
-        OnOffSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
-        OnOffSwitch.gameObject.name = "OnOffSwitch";
-        OnOffSwitch.Init(Switch.SwitchType.Invert);
-    }
-
-    Switch NounSwitch;
-    void SpawnNounSwitch()
-    {
-        NounSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
-        NounSwitch.gameObject.name = "NounSwitch";
-        NounSwitch.Init(Switch.SwitchType.Noun);
-    }
-
-    Switch VerbSwitch;
-	void SpawnVerbSwitch()
-    {
-        VerbSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
-        VerbSwitch.gameObject.name = "VerbSwitch";
-        VerbSwitch.Init(Switch.SwitchType.Verb);
+        Switch newSwitch = (Instantiate(switchPrefab) as GameObject).GetComponent<Switch>();
+        newSwitch.Init();
     }
 
     private static T GetRandomEnum<T>()
