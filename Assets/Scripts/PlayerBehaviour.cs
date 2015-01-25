@@ -250,7 +250,6 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		BallBehaviour bbComponent;
 		if ((bbComponent = other.gameObject.GetComponent<BallBehaviour>())!= null)
 		{
-			print (other.transform.rigidbody2D.velocity.magnitude+ " " + other.transform.rigidbody2D.constantForce);
 			// if the ball wasnt kicked by us and was going pretty fast, we'll get stunned
 			if (other.transform.rigidbody2D.velocity.magnitude > 3.5f)
 				Tagged(bbComponent.KickedBy);
