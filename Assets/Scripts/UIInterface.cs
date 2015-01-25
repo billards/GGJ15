@@ -16,8 +16,7 @@ public class UIInterface : MonoBehaviour
     }
 
     // Canvas elements
-    public Text interfaceTimerSolo;
-    public Text interfaceTimerTeam;
+    public Text interfaceTimer;
     public Text team1Text;
     public Text team2Text;
     public Text player1Text;
@@ -53,8 +52,7 @@ public class UIInterface : MonoBehaviour
         {
             case InterfaceElement.Timer:
                 {
-                    interfaceTimerSolo.text = value.ToString();
-                    interfaceTimerTeam.text = value.ToString();
+                    interfaceTimer.text = value.ToString();
                     break;
                 }
             case InterfaceElement.P1Score:
@@ -99,7 +97,9 @@ public class UIInterface : MonoBehaviour
     public void SetMode(bool teamMode)
     {
         this.teamMode = teamMode;
-        GameObject.Find("TeamUI").SetActive(teamMode);
-        GameObject.Find("SoloUI").SetActive(!teamMode);
+        if(teamMode)
+            GameObject.Find("TeamUI").SetActive(true);
+        else
+            GameObject.Find("SoloUI").SetActive(true);
     }
 }
