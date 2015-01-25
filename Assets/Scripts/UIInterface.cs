@@ -24,7 +24,7 @@ public class UIInterface : MonoBehaviour
     public Text player2Text;
     public Text player3Text;
     public Text player4Text;
-
+    public Text RuleChangeText;
     // States
     bool teamMode = true;
 
@@ -41,12 +41,11 @@ public class UIInterface : MonoBehaviour
         UpdateInterface(InterfaceElement.T1Score, 0);
         UpdateInterface(InterfaceElement.T2Score, 0);
 	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
 
-	}
+    public void UpdateRule(string ruleString)
+    {
+        RuleChangeText.text = ruleString;
+    }
 
     public void UpdateInterface(InterfaceElement toUpdate, int value)
     {

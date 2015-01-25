@@ -230,7 +230,7 @@ public class RuleManager : MonoBehaviour
     {
         timer = 0.0f;
         currentRule = newRule;
-        Debug.Log(RuleToString(newRule));
+        uiInterface.UpdateRule(RuleToString(currentRule));
     }
 
     string RuleToString(Rule rule)

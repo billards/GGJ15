@@ -45,7 +45,6 @@ public class BallBehaviour : MonoBehaviour, Noun
 	public void Grabbed(int player)
 	{
 		// start the cooldown timer and change who the parent is, also reset the localposition
-		print (player);
 		this.transform.parent = players[player-1].transform;
 		this.transform.localPosition = new Vector3(0, 0.25f, 0);
 		this.cooldownTimer = 0;
