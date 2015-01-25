@@ -16,7 +16,6 @@ public class StartGame : MonoBehaviour
 	{
 		
 	}
-<<<<<<< HEAD
 
 	public void OnClick()
 	{
@@ -24,6 +23,4 @@ public class StartGame : MonoBehaviour
 		Application.LoadLevel(1);
 	}
 
-=======
->>>>>>> 13e09198c61feed3e61dd216f21b0ac3ef65401b
 }
