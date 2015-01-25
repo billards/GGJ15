@@ -8,6 +8,7 @@ public class TeamBoolHolder : MonoBehaviour
 	void Start () 
 	{
 		GameObject.DontDestroyOnLoad(this.gameObject);
+		GameObject.DontDestroyOnLoad(GameObject.Find("BGMusic"));
 	}
 	
 	// Update is called once per frame
