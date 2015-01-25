@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartTeam : MonoBehaviour 
+public class StartGame : MonoBehaviour 
 {
 	public GameObject TeamBoolHolder;
-	public boolean IsTeam = false;
+	public bool IsTeam = false;
 	// Use this for initialization
 	void Start () 
 	{
@@ -17,5 +17,10 @@ public class StartTeam : MonoBehaviour
 		
 	}
 
-	void 
+	public void OnClick()
+	{
+		TeamBoolHolder.GetComponent<TeamBoolHolder>().IsTeamGame = IsTeam;
+		Application.LoadLevel(1);
+	}
+
 }
