@@ -125,6 +125,10 @@ public class RuleManager : MonoBehaviour
         instance = this;
         gameStats = Camera.main.GetComponent<GameStats>() as GameStats;
         currentRule = null;
+
+        //teamMode = GameObject.Find("TeamBoolHolder").GetComponent<TeamBoolHolder>().IsTeamGame;
+
+        uiInterface.SetMode(teamMode);
 	}
 	
 	// Update is called once per frame
@@ -172,18 +176,77 @@ public class RuleManager : MonoBehaviour
 
     public void CheckRule(int player, Rule rule)
     {
-        if (currentRule == null) return; 
-        if (currentRule.Equals (rule) && gameStats != null)
+        if (currentRule == null) return;
+        int addedScore = 1;
+        if (isRuleInverted) addedScore = -1;
+
+        if (currentRule.GetNoun() == NounType.Opponents && rule.GetNoun() == NounType.Player)
         {
-            if (isRuleInverted)
+            if (teamMode)
             {
-                gameStats.AddScore(player, -5);
+                switch(player)
+                {
+                    case 1:
+                    case 2:
+                        if (rule.GetAdjective() != AdjectiveType.One && rule.GetAdjective() != AdjectiveType.Two)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                        
+                    case 3:
+                    case 4:
+                        if (rule.GetAdjective() != AdjectiveType.Three && rule.GetAdjective() != AdjectiveType.Four)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                }
             }
             else
             {
-                gameStats.AddScore(player, 1);
+                switch(player)
+                {
+                    case 1:
+                        if (rule.GetAdjective() != AdjectiveType.One)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                    case 2:
+                        if (rule.GetAdjective() != AdjectiveType.Two)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                    case 3:
+                        if (rule.GetAdjective() != AdjectiveType.Three)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                    case 4:
+                        if (rule.GetAdjective() != AdjectiveType.Four)
+                        {
+                            gameStats.AddScore(player, addedScore);
+                            SetRule(RandomRule());
+                        }
+                        break;
+                }
             }
-            SetRule(RandomRule());
+        }
+        else
+        {
+            if (currentRule.Equals(rule) && gameStats != null)
+            {
+                gameStats.AddScore(player, addedScore);
+                SetRule(RandomRule());
+            }
         }
     }
 
