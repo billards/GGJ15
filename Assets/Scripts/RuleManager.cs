@@ -6,15 +6,15 @@ public enum Verbtype
 {
     Kick,
     Grab,
-    Tag,
-    Bring
+    Tag
 }
 
 public enum NounType
 {
     Ball,
     Player,
-    Switch
+    Switch,
+    Opponents
 }
 
 public enum AdjectiveType
@@ -34,6 +34,8 @@ public class RuleManager : MonoBehaviour
 
     public static RuleManager instance;
 
+    public bool teamMode = false;
+    public UIInterface uiInterface;
 
     public class Rule
     {
@@ -104,7 +106,6 @@ public class RuleManager : MonoBehaviour
         VerbToNoun[Verbtype.Kick] = new List<NounType>() { NounType.Ball, NounType.Player };
         VerbToNoun[Verbtype.Grab] = new List<NounType>() { NounType.Ball, NounType.Player };
         VerbToNoun[Verbtype.Tag] = new List<NounType>() { NounType.Player };
-        VerbToNoun[Verbtype.Bring] = new List<NounType>() { NounType.Ball, NounType.Player };
 
         NounToAdjective[NounType.Ball] = new List<AdjectiveType>() { AdjectiveType.Blue, AdjectiveType.Red, AdjectiveType.White };
         NounToAdjective[NounType.Player] = new List<AdjectiveType>() { AdjectiveType.One, AdjectiveType.Two, AdjectiveType.Three, AdjectiveType.Four };
@@ -132,6 +133,7 @@ public class RuleManager : MonoBehaviour
             {
                 SetRule(RandomRule());
             }
+            uiInterface.UpdateInterface(UIInterface.InterfaceElement.Timer, (int)((MAX_TIME - timer) + 0.5));
         }
 	}
 
@@ -168,11 +170,11 @@ public class RuleManager : MonoBehaviour
         {
             if (isRuleInverted)
             {
-                gameStats.AddScore(player, 1);
+                gameStats.AddScore(player, -5);
             }
             else
             {
-                gameStats.AddScore(player, -5);
+                gameStats.AddScore(player, 1);
             }
             SetRule(RandomRule());
         }
@@ -237,10 +239,6 @@ public class RuleManager : MonoBehaviour
 
         switch(rule.GetVerb())
         {
-            case Verbtype.Bring:
-                retString += "Bring ";
-                break;
-
             case Verbtype.Grab:
                 retString += "Grab ";
                 break;

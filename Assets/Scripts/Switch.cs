@@ -48,9 +48,7 @@ public class Switch : MonoBehaviour, Noun
     {
         this.switchType = switchType;
 
-        float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
-        float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
-        this.gameObject.transform.position = new Vector3(randX, randY, 0.0f);
+        Spawn();
     }
 
     public AdjectiveType Adjective
@@ -61,7 +59,10 @@ public class Switch : MonoBehaviour, Noun
 
     public void Spawn()
     {
-
+        float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
+        float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
+        this.gameObject.transform.position = new Vector3(randX, randY, 0.0f);
+        gameObject.SetActive(true);
     }
 
     public void Reset()
