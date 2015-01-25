@@ -100,15 +100,22 @@ public class RuleManager : MonoBehaviour
     bool isRuleInverted = false;
 
     Dictionary<Verbtype, List<NounType>> VerbToNoun = new Dictionary<Verbtype, List<NounType>>();
+    Dictionary<NounType, List<Verbtype>> NounToVerb = new Dictionary<NounType, List<Verbtype>>();
     Dictionary<NounType, List<AdjectiveType>> NounToAdjective = new Dictionary<NounType, List<AdjectiveType>>();
     void Awake()
     {
-        VerbToNoun[Verbtype.Kick] = new List<NounType>() { NounType.Ball, NounType.Player };
-        VerbToNoun[Verbtype.Grab] = new List<NounType>() { NounType.Ball, NounType.Player };
-        VerbToNoun[Verbtype.Tag] = new List<NounType>() { NounType.Player };
+        VerbToNoun[Verbtype.Kick] = new List<NounType>() { NounType.Ball, NounType.Player, NounType.Opponents };
+        VerbToNoun[Verbtype.Grab] = new List<NounType>() { NounType.Ball, NounType.Player, NounType.Opponents };
+        VerbToNoun[Verbtype.Tag] = new List<NounType>() { NounType.Player, NounType.Opponents };
+
+        NounToVerb[NounType.Ball] = new List<Verbtype>() { Verbtype.Grab, Verbtype.Kick };
+        NounToVerb[NounType.Player] = new List<Verbtype>() { Verbtype.Grab, Verbtype.Kick, Verbtype.Tag };
+        NounToVerb[NounType.Opponents] = new List<Verbtype>() { Verbtype.Grab, Verbtype.Kick, Verbtype.Tag };
+
 
         NounToAdjective[NounType.Ball] = new List<AdjectiveType>() { AdjectiveType.Blue, AdjectiveType.Red, AdjectiveType.White };
         NounToAdjective[NounType.Player] = new List<AdjectiveType>() { AdjectiveType.One, AdjectiveType.Two, AdjectiveType.Three, AdjectiveType.Four };
+        NounToAdjective[NounType.Opponents] = new List<AdjectiveType>() { AdjectiveType.None };
         NounToAdjective[NounType.Switch] = new List<AdjectiveType>() { AdjectiveType.None };
     }
 
@@ -195,6 +202,39 @@ public class RuleManager : MonoBehaviour
            }
         }
         SetRule(new Rule(newVerb, newNoun, newAdjective));
+    }
+
+    public void ChangeVerb(Verbtype newVerb)
+    {
+        NounType newNoun = currentRule.GetNoun();
+        AdjectiveType newAdjective = currentRule.GetAdjective();
+        if (!VerbToNoun[newVerb].Contains(newNoun))
+        {
+            newNoun = VerbToNoun[newVerb][rnd.Next(VerbToNoun[newVerb].Count)];
+
+            if (!NounToAdjective[newNoun].Contains(newAdjective))
+            {
+                newAdjective = NounToAdjective[newNoun][rnd.Next(NounToAdjective[newNoun].Count)];
+            }
+        }
+        SetRule(new Rule(newVerb, newNoun, newAdjective));
+    }
+
+    public void ChangeNoun(NounType nounType, AdjectiveType adjectiveType)
+    {
+        while (!NounToAdjective[nounType].Contains(adjectiveType))
+        {
+            adjectiveType = NounToAdjective[nounType][rnd.Next(rnd.Next(NounToAdjective[nounType].Count))];
+        }
+
+        Verbtype newVerb;
+        do
+        {
+            newVerb = NounToVerb[nounType][rnd.Next(rnd.Next(NounToVerb[nounType].Count))];
+        }
+        while(!NounToVerb[nounType].Contains(newVerb));
+
+        SetRule(new Rule(newVerb, nounType, adjectiveType));
     }
 
     public void ChangeNoun()
@@ -300,14 +340,17 @@ public class RuleManager : MonoBehaviour
                 }
                 break;
 
-            case NounType.Switch:
+            case NounType.Opponents:
+                {
+                    retString += "your opponents";
+                }
                 break;
         }
 
         return retString;
     }
 
-    private static T GetRandomEnum<T>()
+    public static T GetRandomEnum<T>()
     {
         System.Array A = System.Enum.GetValues(typeof(T));
         T V = (T)A.GetValue(UnityEngine.Random.Range(0, A.Length));

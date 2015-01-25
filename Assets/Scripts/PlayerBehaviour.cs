@@ -177,7 +177,6 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		animator.SetBool("isHurt", true);
 		yield return new WaitForSeconds(1);
 		animator.SetBool("isHurt", false);
-		animator.SetInteger("state", 1)
 	}
 
 	public void Kicked(int player, Vector3 direction)
