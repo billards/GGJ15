@@ -927,7 +927,15 @@ Prefab:
       objectReference: {fileID: 6200000, guid: f5d4f53091771754f8646659eac3ae40, type: 2}
     - target: {fileID: 11488612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
       propertyPath: LaunchSpeed
-      value: 75
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_Mass
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_LinearDrag
+      value: 1.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
@@ -1759,7 +1767,15 @@ Prefab:
       objectReference: {fileID: 6200000, guid: f5d4f53091771754f8646659eac3ae40, type: 2}
     - target: {fileID: 11488612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
       propertyPath: LaunchSpeed
-      value: 75
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_Mass
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_LinearDrag
+      value: 1.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
@@ -2629,7 +2645,7 @@ MonoBehaviour:
   TaggedNoise: {fileID: 0}
   GrabbedNoise: {fileID: 0}
   Cooldown: .150000006
-  LaunchSpeed: 75
+  LaunchSpeed: 66
   adjectiveType: 2
 --- !u!50 &1332999020
 Rigidbody2D:
@@ -2639,7 +2655,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 796468140}
   m_GameObject: {fileID: 1332999017}
   m_Mass: .100000001
-  m_LinearDrag: 1.5
+  m_LinearDrag: 1.75
   m_AngularDrag: 0
   m_GravityScale: 0
   m_FixedAngle: 1
@@ -3102,7 +3118,7 @@ MonoBehaviour:
   TaggedNoise: {fileID: 0}
   GrabbedNoise: {fileID: 0}
   Cooldown: .150000006
-  LaunchSpeed: 75
+  LaunchSpeed: 66
   adjectiveType: 1
 --- !u!50 &1496025499
 Rigidbody2D:
@@ -3112,7 +3128,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 1559704836}
   m_GameObject: {fileID: 1496025496}
   m_Mass: .100000001
-  m_LinearDrag: 1.5
+  m_LinearDrag: 1.75
   m_AngularDrag: 0
   m_GravityScale: 0
   m_FixedAngle: 1
@@ -3266,7 +3282,15 @@ Prefab:
       objectReference: {fileID: 6200000, guid: f5d4f53091771754f8646659eac3ae40, type: 2}
     - target: {fileID: 11488612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
       propertyPath: LaunchSpeed
-      value: 75
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_Mass
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088612, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
+      propertyPath: m_LinearDrag
+      value: 1.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a318a5ee84d90e44499f087e94f04252, type: 2}
@@ -3320,7 +3344,7 @@ MonoBehaviour:
   TaggedNoise: {fileID: 0}
   GrabbedNoise: {fileID: 0}
   Cooldown: .150000006
-  LaunchSpeed: 75
+  LaunchSpeed: 66
   adjectiveType: 3
 --- !u!50 &1615594470
 Rigidbody2D:
@@ -3330,7 +3354,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 330794239}
   m_GameObject: {fileID: 1615594467}
   m_Mass: .100000001
-  m_LinearDrag: 1.5
+  m_LinearDrag: 1.75
   m_AngularDrag: 0
   m_GravityScale: 0
   m_FixedAngle: 1
