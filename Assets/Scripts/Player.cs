@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	public int Number = 0;
+	public string Name;
 	// Use this for initialization
 	void Start () 
 	{

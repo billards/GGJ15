@@ -93,6 +93,7 @@ public class RuleManager : MonoBehaviour
     }
 
     public GameObject[] players;  // Reference to the players in scene
+	private List<string> playerNames; 
     Rule currentRule;             // The current rule the game is operating off of
     GameStats gameStats;          // For updating scores
     const float MAX_TIME = 5.0f; // Maximum time a rule can be in play
@@ -138,6 +139,11 @@ public class RuleManager : MonoBehaviour
 		if (GameObject.Find("BGMusic") == null)
 			GameObject.Instantiate(BGMusic);
 
+		playerNames = new List<string>();
+		foreach (GameObject player in players)
+		{
+			playerNames.Add(player.GetComponent<Player>().Name);
+		}
 	}
 	
 	// Update is called once per frame
@@ -393,23 +399,27 @@ public class RuleManager : MonoBehaviour
 
             case NounType.Player:
                 {
-                    retString += "player ";
+                    //retString += "player ";
                     switch (adjectiveType)
                     {
                         case AdjectiveType.One:
-                            retString += "1";
+                            //retString += "1";
+							retString += playerNames[0];
                             break;
 
                         case AdjectiveType.Two:
-                            retString += "2";
+                            //retString += "2";
+							retString += playerNames[1];
                             break;
 
                         case AdjectiveType.Three:
-                            retString += "3";
+                            //retString += "3";
+							retString += playerNames[2];
                             break;
 
                         case AdjectiveType.Four:
-                            retString += "4";
+                            //retString += "4";
+							retString += playerNames[3];
                             break;
                     }
                 }

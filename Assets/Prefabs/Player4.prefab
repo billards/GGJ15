@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 198328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .967999995, y: 2.77999997, z: 0}
+  m_LocalPosition: {x: .680999994, y: 1.73099995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 416294}
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 21300000, guid: a16b6b31f15eb3f48bfc7c7240666ef8, type: 3}
   Foot: {fileID: 21300000, guid: ce68b1ecd538eee478be9f70212d567f, type: 3}
-  KickDuration: .25
+  KickDuration: .100000001
 --- !u!114 &11498324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,7 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8fb003d96207041ad61fe2aa6d980b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Number: 3
+  Number: 4
+  Name: Shradha
 --- !u!114 &11498326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,15 +167,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkSpeed: 16
-  GrabSpeed: 4
+  GrabSpeed: 13.5
   SpeedUpTime: 1
-  KicksToFree: 3
+  KicksToFree: 2
   KickedForce: 1
-  StunnedTime: 2
-  LaunchSpeed: 250
-  GlobalCooldown: .25
+  StunnedTime: .5
+  LaunchSpeed: 300
+  GlobalCooldown: .300000012
   StunnedSprite: {fileID: 21300000, guid: 2ec1ade9f1256fb44a9453e26130b16f, type: 3}
-  StunAnimations: []
+  StunAnimations:
+  - {fileID: 168340, guid: e7e39a13cef017740af8eb9ea8db80f9, type: 2}
+  - {fileID: 183624, guid: abe6c19319beda4439c4f0fa90e613d7, type: 2}
 --- !u!212 &21216294
 SpriteRenderer:
   m_ObjectHideFlags: 1
