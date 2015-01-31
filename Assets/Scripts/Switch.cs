@@ -82,8 +82,8 @@ public class Switch : MonoBehaviour, Noun
 
         gameObject.name = switchType.ToString() + "Switch";
 
-        float randX = UnityEngine.Random.Range(-2.96f, 3.06f);
-        float randY = UnityEngine.Random.Range(-1.13f, 3.14f);
+        float randX = UnityEngine.Random.Range(-2.6f, 2.6f);
+        float randY = UnityEngine.Random.Range(-1.13f, 2.14f);
         this.gameObject.transform.position = new Vector3(randX, randY, 0.0f);
 
         gameObject.SetActive(true);

@@ -36,6 +36,7 @@ public class RuleManager : MonoBehaviour
 
     public bool teamMode = false;
     public UIInterface uiInterface;
+	public GameObject BGMusic;
 
     public class Rule
     {
@@ -126,9 +127,17 @@ public class RuleManager : MonoBehaviour
         gameStats = Camera.main.GetComponent<GameStats>() as GameStats;
         currentRule = null;
 
-        //teamMode = GameObject.Find("TeamBoolHolder").GetComponent<TeamBoolHolder>().IsTeamGame;
+		GameObject teamBoolHolder = GameObject.Find("TeamBoolHolder");
+		if (teamBoolHolder != null)
+			teamMode = teamBoolHolder.GetComponent<TeamBoolHolder>().IsTeamGame;
+		else
+			teamMode = false;
 
         uiInterface.SetMode(teamMode);
+		// start music if its not already playing
+		if (GameObject.Find("BGMusic") == null)
+			GameObject.Instantiate(BGMusic);
+
 	}
 	
 	// Update is called once per frame
@@ -317,12 +326,15 @@ public class RuleManager : MonoBehaviour
 
     public void InvertRule()
     {
-        isRuleInverted = !isRuleInverted;
+		isRuleInverted = !isRuleInverted;
+		uiInterface.UpdateRule(RuleToString(currentRule));
     }
 
     public Rule RandomRule()
     {
-        isRuleInverted = (rnd.Next(2) == 0);
+		int val = rnd.Next(3); // 1 in 3 chance to get 'not' as it's not as fun
+		isRuleInverted = (val == 0);
+		print (isRuleInverted + " " + val);
         Verbtype verb = GetRandomEnum<Verbtype>();
         NounType noun = VerbToNoun[verb][rnd.Next(VerbToNoun[verb].Count)];
         AdjectiveType adjective = NounToAdjective[noun][rnd.Next(NounToAdjective[noun].Count)];

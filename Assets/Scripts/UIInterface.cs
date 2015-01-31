@@ -98,8 +98,14 @@ public class UIInterface : MonoBehaviour
     {
         this.teamMode = teamMode;
         if(teamMode)
-            GameObject.Find("TeamUI").SetActive(true);
+		{
+			GameObject.Find("TeamUI").SetActive(true);
+			GameObject.Find("SoloUI").SetActive(false);
+		}
         else
-            GameObject.Find("SoloUI").SetActive(true);
+		{
+			GameObject.Find("SoloUI").SetActive(true);
+			GameObject.Find("TeamUI").SetActive(false);
+		}
     }
 }

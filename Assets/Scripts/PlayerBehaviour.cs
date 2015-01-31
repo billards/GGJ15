@@ -173,7 +173,6 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 
 	public IEnumerator HurtAnimation()
 	{
-		print ("hurt anim");
 		animator.SetBool("isHurt", true);
 		yield return new WaitForSeconds(1);
 		animator.SetBool("isHurt", false);
@@ -250,7 +249,8 @@ public class PlayerBehaviour : MonoBehaviour, Noun
 		if ((bbComponent = other.gameObject.GetComponent<BallBehaviour>())!= null)
 		{
 			// if the ball wasnt kicked by us and was going pretty fast, we'll get stunned
-			if (other.transform.rigidbody2D.velocity.magnitude > 3.5f)
+			//print (other.transform.rigidbody2D.velocity.magnitude);
+			if (other.transform.rigidbody2D.velocity.magnitude > 4.0f)
 				Tagged(bbComponent.KickedBy);
 		}
 	}
